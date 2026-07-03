@@ -7,8 +7,8 @@ POST {{SERVER}}/api/farm
 Content-Type: application/json
 
 {
-  "ownerId": "1",
-  "farmName": "Good Farm",
+  "ownerId": "2",
+  "farmName": "Good Farm too",
   "farmAddress": "44 Stanley Ave, Milpark, Johannesburg, 2092",
   "longitude": "",
   "latitude" : ""
