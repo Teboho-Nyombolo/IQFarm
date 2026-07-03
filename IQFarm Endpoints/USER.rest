@@ -1,0 +1,34 @@
+#### VARIABLES
+@HOST = http://localhost:
+@PORT = 8080
+
+@SERVER = {{HOST}}{{PORT}}
+
+
+### Get all users
+GET {{SERVER}}/api/users
+Accept: application/json
+
+###
+
+### Get user by ID
+GET {{SERVER}}/api/users/1
+Accept: application/json
+
+###
+
+### Update user by ID
+PUT {{SERVER}}/api/users/1
+Content-Type: application/json
+
+{
+  "name": "Jane Updated",
+  "surname": "Smith Updated",
+  "email": "jane.updated@example.com",
+  "password": "newpassword123"
+}
+
+###
+
+### Delete user by ID
+DELETE {{SERVER}}/api/users/1
