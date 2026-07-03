@@ -1,0 +1,211 @@
+@HOST = http://localhost:
+@PORT = 8080
+@SERVER = {{HOST}}{{PORT}}
+
+### Create Tracker - Irrigation
+POST {{SERVER}}/api/crop-trackers/create
+Content-Type: application/json
+
+{
+  "cropId": 1,
+  "description": "Morning irrigation session for tomato field",
+  "status": "ACTIVE",
+  "date": "2026-07-03",
+  "logType": "IRRIGATION",
+  "cost": 150.00,
+  "next": "Check soil moisture tomorrow",
+  "completed": true
+}
+
+### Create Tracker - Fertilizer
+POST {{SERVER}}/api/crop-trackers/create
+Content-Type: application/json
+
+{
+  "cropId": 1,
+  "description": "Applied NPK fertilizer",
+  "status": "ACTIVE",
+  "date": "2026-07-01",
+  "logType": "FERTILIZER",
+  "cost": 250.50,
+  "next": "Monitor growth in 2 weeks",
+  "completed": true
+}
+
+
+### Create Tracker - Pesticide
+POST {{SERVER}}/api/crop-trackers/create
+Content-Type: application/json
+
+{
+  "cropId": 1,
+  "description": "Sprayed organic pesticide",
+  "status": "ACTIVE",
+  "date": "2026-07-02",
+  "logType": "PESTICIDE",
+  "cost": 180.00,
+  "next": "Check for pest activity",
+  "completed": true
+}
+
+### Create Tracker - Observation
+POST {{SERVER}}/api/crop-trackers/create
+Content-Type: application/json
+
+{
+  "cropId": 1,
+  "description": "Plants showing healthy growth",
+  "status": "ACTIVE",
+  "date": "2026-07-03",
+  "logType": "OBSERVATION",
+  "cost": 0.00,
+  "next": "Continue monitoring",
+  "completed": true
+}
+
+### Create Tracker - Harvest
+POST {{SERVER}}/api/crop-trackers/create
+Content-Type: application/json
+
+{
+  "cropId": 1,
+  "description": "Harvested 500kg of tomatoes",
+  "status": "HARVESTED",
+  "date": "2026-07-10",
+  "logType": "HARVEST",
+  "cost": 300.00,
+  "next": "Prepare for market",
+  "completed": true
+}
+
+### Get Tracker by ID - Success
+GET {{SERVER}}/api/crop-trackers/1
+
+### Get All Trackers
+GET {{SERVER}}/api/crop-trackers
+
+### Get Trackers by Crop ID - Success
+GET {{SERVER}}/api/crop-trackers/crop/1
+
+
+### GET TRACKERS BY STATUS
+
+### Get Trackers by Status - ACTIVE
+GET {{SERVER}}/api/crop-trackers/status/ACTIVE
+
+
+
+### Get Trackers by Status - HARVESTED
+GET {{SERVER}}/api/crop-trackers/status/HARVESTED
+
+
+
+### Get Trackers by Status - PLANNING
+GET {{SERVER}}/api/crop-trackers/status/PLANNING
+
+
+
+### Get Trackers by Status - FAILED
+GET {{SERVER}}/api/crop-trackers/status/FAILED
+
+
+### GET TRACKERS BY LOG TYPE
+
+### Get Trackers by Log Type - IRRIGATION
+GET {{SERVER}}/api/crop-trackers/log-type/IRRIGATION
+
+
+
+### Get Trackers by Log Type - FERTILIZER
+GET {{SERVER}}/api/crop-trackers/log-type/FERTILIZER
+
+
+
+### Get Trackers by Log Type - PESTICIDE
+GET {{SERVER}}/api/crop-trackers/log-type/PESTICIDE
+
+
+
+### Get Trackers by Log Type - OBSERVATION
+GET {{SERVER}}/api/crop-trackers/log-type/OBSERVATION
+
+
+
+### Get Trackers by Log Type - HARVEST
+GET {{SERVER}}/api/crop-trackers/log-type/HARVEST
+
+
+### GET TRACKERS BY DATE RANGE
+
+### Get Trackers by Date Range
+GET {{SERVER}}/api/crop-trackers/date-range?startDate=2026-07-01&endDate=2026-07-05
+
+###
+
+### Get Trackers by Date Range - Empty Result
+GET {{SERVER}}/api/crop-trackers/date-range?startDate=2026-08-01&endDate=2026-08-31
+
+
+### UPDATE TRACKER
+
+
+### Update Tracker - Success
+PUT {{SERVER}}/api/crop-trackers/1
+Content-Type: application/json
+
+{
+  "cropId": 1,
+  "description": "Updated irrigation session - added drip system",
+  "status": "ACTIVE",
+  "date": "2026-07-03",
+  "logType": "IRRIGATION",
+  "cost": 200.00,
+  "next": "Check drip system pressure",
+  "completed": true
+}
+
+
+
+### Update Tracker - Not Found
+PUT {{SERVER}}/api/crop-trackers/9999
+Content-Type: application/json
+
+{
+  "cropId": 1,
+  "description": "Test update",
+  "status": "PLANNING",
+  "date": "2026-07-03",
+  "logType": "OBSERVATION",
+  "cost": 0.00,
+  "next": "None",
+  "completed": false
+}
+
+
+
+### Update Tracker - Crop Not Found
+PUT {{SERVER}}/api/crop-trackers/1
+Content-Type: application/json
+
+{
+  "cropId": 9999,
+  "description": "Test update",
+  "status": "PLANNING",
+  "date": "2026-07-03",
+  "logType": "OBSERVATION",
+  "cost": 0.00,
+  "next": "None",
+  "completed": false
+}
+
+
+### DELETE TRACKER
+
+### Delete Tracker - Success
+DELETE {{SERVER}}/api/crop-trackers/2
+
+
+
+### Delete Tracker - Not Found
+DELETE {{SERVER}}/api/crop-trackers/9999
+
