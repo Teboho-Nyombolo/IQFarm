@@ -1,0 +1,34 @@
+#### VARIABLES
+@HOST = http://localhost:
+@PORT = 8080
+
+@SERVER = {{HOST}}{{PORT}}
+
+### Register a new user
+POST {{SERVER}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Teboho",
+  "surname": "Nyombolo",
+  "email": "thulaninyombolo@gmail.com",
+  "password": "teboho@123"
+}
+
+### Login with existing user
+POST {{SERVER}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "thulaninyombolo@gmail.com",
+  "password": "teboho@123"
+}
+
+### Login with incorrect password (to test error handling)
+POST {{SERVER}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com",
+  "password": "wrongpassword"
+}
