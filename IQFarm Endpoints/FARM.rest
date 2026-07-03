@@ -1,0 +1,15 @@
+@HOST = http://localhost:
+@PORT = 8080
+
+@SERVER = {{HOST}}{{PORT}}
+
+POST {{SERVER}}/api/farm
+Content-Type: application/json
+
+{
+  "ownerId": "1",
+  "farmName": "Good Farm",
+  "farmAddress": "44 Stanley Ave, Milpark, Johannesburg, 2092",
+  "longitude": "",
+  "latitude" : ""
+}
