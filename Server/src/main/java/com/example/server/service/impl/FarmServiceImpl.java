@@ -49,10 +49,10 @@ public class FarmServiceImpl implements FarmService {
 
         String address = farmRequestDTO.getFarmAddress();
 
-//        List<Double> longLat = getFarmLongLat(address);
+        List<Double> longLat = getFarmLongLat(address);
 
-        farmRequestDTO.setLongitude(-5.0009876);
-        farmRequestDTO.setLatitude(0.23445676);
+        farmRequestDTO.setLongitude(longLat.get(0));
+        farmRequestDTO.setLatitude(longLat.get(1));
 
         Farm farm = farmMapper.toEntity(farmRequestDTO, owner);
 
@@ -65,74 +65,79 @@ public class FarmServiceImpl implements FarmService {
 
     public boolean checkUser(Long ownerId){
         User user = userRepository.findById(ownerId).orElse(null);
-        if(user == null){
-            return false;
-        }
-        return true;
+        return user != null;
     }
 
-//    public List<Double> getFarmLongLat(String address) {
-//
-//        //String address = "1600 Amphitheatre Parkway, Mountain View, CA";
-//        List<Double> longLat = new ArrayList<>();
-//
-//        try {
-//            // 1. URL encode the address string
-//            String encodedAddress = URLEncoder.encode(address, StandardCharsets.UTF_8.toString());
-//
-//            // 2. Build URL with a country filter strict to South Africa (countrycode:za)
-//            String urlString = "https://geoapify.com" + encodedAddress
-//                    + "&filter=countrycode:za"
-//                    + "&apiKey=" + API_KEY;
-//
-//            URL url = new URL(urlString);
-//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//            conn.setRequestMethod("GET");
-//            conn.setRequestProperty("Accept", "application/json");
-//
-//            int responseCode = conn.getResponseCode();
-//            if (responseCode == 200) {
-//                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//                String inputLine;
-//                StringBuilder response = new StringBuilder();
-//
-//                while ((inputLine = in.readLine()) != null) {
-//                    response.append(inputLine);
-//                }
-//                in.close();
-//
-//                String jsonResponse = response.toString();
-//
-//                // 3. Extract Coordinates using regex
-//                String lon = getJsonValue(jsonResponse, "lon");
-//                String lat = getJsonValue(jsonResponse, "lat");
-//
-//                longLat.add(Double.parseDouble(lon));
-//                longLat.add(Double.parseDouble(lat));
-//
-//                System.out.println("SA Address: " + address);
-//                System.out.println("Latitude:   " + lat);
-//                System.out.println("Longitude:  " + lon);
-//
-//            } else if (responseCode == 429) {
-//                System.out.println("Error 429: Daily free limit of 3,000 requests exceeded.");
-//            } else {
-//                System.out.println("Error: HTTP Server responded with code " + responseCode);
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-//
-//    private static String getJsonValue(String json, String key) {
-//        Pattern pattern = Pattern.compile("\"" + key + "\":\\s*(-?\\d+\\.\\d+)");
-//        Matcher matcher = pattern.matcher(json);
-//        if (matcher.find()) {
-//            return matcher.group(1);
-//        }
-//        return "Not Found";
-//    }
+    public List<Double> getFarmLongLat(String address) {
+
+        List<Double> longLat = new ArrayList<>();
+
+        try {
+            // 1. URL encode the address string
+            String encodedAddress = URLEncoder.encode(address, StandardCharsets.UTF_8.toString());
+
+            // 2. Build URL with a country filter strict to South Africa (countrycode:za)
+            String urlString = "https://api.geoapify.com/v1/geocode/search?text=" + encodedAddress
+                    + "&filter=countrycode:za"
+                    + "&apiKey=" + API_KEY;
+
+            System.out.println("*******************URL STRING********************");
+            System.out.println("URL STRING: " + urlString);
+
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            int responseCode = conn.getResponseCode();
+            if (responseCode == 200) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String inputLine;
+                StringBuilder response = new StringBuilder();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                String jsonResponse = response.toString();
+
+                // 3. Extract Coordinates using regex
+                String lon = getJsonValue(jsonResponse, "lon");
+                String lat = getJsonValue(jsonResponse, "lat");
+
+                System.out.println("***************************Longitude and Latitude********************");
+                System.out.println("Longitude: " + lon);
+                System.out.println("Latitude: " + lat);
+
+                longLat.add(Double.parseDouble(lon));
+                longLat.add(Double.parseDouble(lat));
+
+                System.out.println("SA Address: " + address);
+                System.out.println("Latitude:   " + lat);
+                System.out.println("Longitude:  " + lon);
+
+            } else if (responseCode == 429) {
+                System.out.println("Error 429: Daily free limit of 3,000 requests exceeded.");
+            } else {
+                System.out.println("Error: HTTP Server responded with code " + responseCode);
+            }
+
+            return longLat;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String getJsonValue(String json, String key) {
+        Pattern pattern = Pattern.compile("\"" + key + "\":\\s*(-?\\d+\\.\\d+)");
+        Matcher matcher = pattern.matcher(json);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return "Not Found";
+    }
 
 }
