@@ -28,8 +28,12 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
-        if (!user.getPassword().equals(request.getPassword())) {
+        if (user.getPassword() == null) {
             throw new RuntimeException("Invalid email or password");
+        }
+
+        if (!PasswordEncryption.checkPassword(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid password");
         }
 
         return userMapper.toResponseDTO(user);
@@ -37,6 +41,12 @@ public class UserServiceImpl implements UserService {
 
     public UserResponseDTO registerUser(UserRequestDTO request) {
         User user = userMapper.toEntity(request);
+
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+        user.setPassword(PasswordEncryption.encrypt(user.getPassword()));
+
         User savedUser = userRepository.save(user);
         return userMapper.toResponseDTO(savedUser);
     }

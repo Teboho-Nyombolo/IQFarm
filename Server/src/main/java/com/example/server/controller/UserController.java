@@ -1,6 +1,7 @@
 package com.example.server.controller;
 
 import com.example.server.dto.request.UserRequestDTO;
+import com.example.server.dto.response.ApiResponse;
 import com.example.server.dto.response.UserResponseDTO;
 import com.example.server.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -20,28 +21,32 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO request) {
-        return new ResponseEntity<>(userService.registerUser(request), HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse<UserResponseDTO>> createUser(@RequestBody UserRequestDTO request) {
+        UserResponseDTO user = userService.registerUser(request);
+        return new ResponseEntity<>(ApiResponse.success("User registered successfully", user), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUserById(id));
+    public ResponseEntity<ApiResponse<UserResponseDTO>> getUserById(@PathVariable Long id) {
+        UserResponseDTO user = userService.getUserById(id);
+        return ResponseEntity.ok(ApiResponse.success(user));
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<ApiResponse<List<UserResponseDTO>>> getAllUsers() {
+        List<UserResponseDTO> users = userService.getAllUsers();
+        return ResponseEntity.ok(ApiResponse.success(users));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO request) {
-        return ResponseEntity.ok(userService.updateUser(id, request));
+    public ResponseEntity<ApiResponse<UserResponseDTO>> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO request) {
+        UserResponseDTO user = userService.updateUser(id, request);
+        return ResponseEntity.ok(ApiResponse.success("User updated successfully", user));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ApiResponse.success("User deleted successfully", null));
     }
 }
