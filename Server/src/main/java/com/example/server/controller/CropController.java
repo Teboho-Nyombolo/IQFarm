@@ -30,19 +30,19 @@ public class CropController {
     @GetMapping("/{cropId}")
     public ResponseEntity<ApiResponse<CropResponseDTO>> getCropById(@PathVariable Long cropId) {
         CropResponseDTO response = cropService.getCropById(cropId);
-        return ResponseEntity.ok(ApiResponse.success(response));
+        return ResponseEntity.ok(ApiResponse.success("Crop Retrieved Successfully", response));
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<CropResponseDTO>>> getAllCrops() {
         List<CropResponseDTO> responses = cropService.getAllCrops();
-        return ResponseEntity.ok(ApiResponse.success(responses));
+        return ResponseEntity.ok(ApiResponse.success("Crops Retrieved Successfully", responses));
     }
 
     @GetMapping("/farm/{farmId}")
     public ResponseEntity<ApiResponse<List<CropResponseDTO>>> getCropsByFarmId(@PathVariable Long farmId) {
         List<CropResponseDTO> responses = cropService.getCropsByFarmId(farmId);
-        return ResponseEntity.ok(ApiResponse.success(responses));
+        return ResponseEntity.ok(ApiResponse.success("Retrieved Successfully" ,responses));
     }
 
     @PutMapping("/{cropId}")
