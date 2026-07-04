@@ -10,9 +10,9 @@ Content-Type: application/json
 
 {
   "name": "Tebza",
-  "surname": "Nyombolo",
-  "email": "thulaninyombolo1@gmail.com",
-  "password": "teboho@123"
+  "surname": "Smith",
+  "email": "thulanismith@gmail.com",
+  "password": "teboho@1234"
 }
 
 ### Login with existing user
@@ -20,8 +20,8 @@ POST {{SERVER}}/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "thulaninyombolo@gmail.com",
-  "password": "teboho@123"
+  "email": "thulanismith@gmail.com",
+  "password": "teboho@1234"
 }
 
 ### Login with incorrect password (to test error handling)
