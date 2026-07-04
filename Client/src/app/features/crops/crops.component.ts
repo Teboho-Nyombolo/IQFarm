@@ -1,7 +1,7 @@
 import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
+import { Router, RouterLink } from '@angular/router';
+import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 
 interface Crop {
   id: string;
@@ -16,7 +16,7 @@ interface Crop {
 @Component({
   selector: 'app-crops',
   standalone: true,
-  imports: [CommonModule, BottomNavComponent],
+  imports: [CommonModule, NavbarComponent, RouterLink],
   templateUrl: './crops.component.html',
   styleUrls: ['./crops.component.css']
 })
@@ -62,7 +62,6 @@ export class CropsComponent implements OnInit {
     }
   ];
 
-  activeTab = 'crops';
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.#platformId)) {

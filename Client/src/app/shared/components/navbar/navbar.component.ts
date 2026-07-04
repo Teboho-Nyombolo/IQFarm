@@ -20,7 +20,7 @@ import { NgClass } from '@angular/common';
       </a>
 
       <!-- Crops -->
-      <a id="nav-crops" routerLink="#"
+      <a id="nav-crops" routerLink="/crops"
         [ngClass]="activeTab === 'crops' ? 'bg-[#50c878]/20 text-[#006d36]' : 'text-[#3e4a3f] hover:bg-[#eff4ff]'"
         class="flex flex-col items-center justify-center rounded-full px-4 py-1 nav-btn transition-colors"
         [attr.aria-current]="activeTab === 'crops' ? 'page' : null">
