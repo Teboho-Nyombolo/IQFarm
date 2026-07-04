@@ -3,6 +3,8 @@ import { LandingPageComponent } from './features/landing-page/landing-page.compo
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { FarmComponent } from './features/auth/farm/farm.component';
 import { RegisterComponent } from './features/auth/regiter/register.component';
+import { CropsComponent } from './features/crops/crops.component';
+import { AddCropComponent } from './features/crops/add-crop/add-crop.component';
 
 export const routes: Routes = [
     {
@@ -14,10 +16,19 @@ export const routes: Routes = [
         component: DashboardComponent
     },
     {
-        path:'farmInfo',
+        path: 'farmInfo',
         component: FarmComponent
-    },{
-        path:'register',
+    },
+    {
+        path: 'register',
         component: RegisterComponent
+    },
+    {
+        path: 'crops',
+        component: CropsComponent
+    },
+    {
+        path: 'crops/add',
+        component: AddCropComponent
     }
 ];
