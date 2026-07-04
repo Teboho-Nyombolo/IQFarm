@@ -34,7 +34,7 @@ POST {{SERVER}}/api/diagnoses/analyze
 Content-Type: application/json
 
 {
-  "imageId": 16,
+  "imageId": 17,
   "trackerId": 1,
   "cropId": 1,
   "cropName": "Plant",

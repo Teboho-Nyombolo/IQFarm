@@ -1,4 +1,4 @@
-package com.example.server.service;
+package com.example.server.service.impl;
 
 import com.example.server.dto.request.DiagnosisRequestDTO;
 import org.springframework.stereotype.Component;
