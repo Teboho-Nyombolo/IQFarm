@@ -5,6 +5,7 @@ import { FarmComponent } from './features/auth/farm/farm.component';
 import { RegisterComponent } from './features/auth/regiter/register.component';
 import { CropsComponent } from './features/crops/crops.component';
 import { AddCropComponent } from './features/crops/add-crop/add-crop.component';
+import { WeatherComponent } from './features/weather/weather.component';
 
 export const routes: Routes = [
     {
@@ -14,6 +15,10 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent
+    },
+    {
+        path: 'dashboard/weather',
+        component: WeatherComponent
     },
     {
         path: 'farmInfo',

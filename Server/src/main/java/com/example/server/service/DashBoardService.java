@@ -1,7 +1,7 @@
 package com.example.server.service;
 
+import com.example.server.dto.response.SeasonalResponseDTO;
 import com.example.server.dto.response.WeatherResponseDTO;
-
 
 public interface DashBoardService {
 
@@ -9,5 +9,5 @@ public interface DashBoardService {
 
 //    SoilResponseDTO getSoilConditionFromLatLang(SoilRequestFromLatLongDTO soilRequestFromLatLongDTO);
 //
-//    SeasonResponseDTO getSeasonInsights(SeasonRequestDTO seasonRequestDTO);
+    SeasonalResponseDTO getCurrentSeasonal(Long farmId);
 }

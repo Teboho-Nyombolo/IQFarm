@@ -4,9 +4,10 @@ import { MobileOnlyComponent } from './shared/mobile-only/mobile-only.component'
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet, MobileOnlyComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
 
