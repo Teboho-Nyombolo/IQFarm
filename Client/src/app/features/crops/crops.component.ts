@@ -16,7 +16,7 @@ interface Crop {
 @Component({
   selector: 'app-crops',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, RouterLink],
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './crops.component.html',
   styleUrls: ['./crops.component.css']
 })
