@@ -7,6 +7,7 @@ import com.example.server.entity.Crop;
 import com.example.server.entity.CropTracker;
 import com.example.server.entity.Diagnosis;
 import com.example.server.entity.Image;
+import com.example.server.enums.ConfidenceFlag;
 import com.example.server.repository.CropRepository;
 import com.example.server.repository.CropTrackerRepository;
 import com.example.server.repository.DiagnosisRepository;
@@ -70,7 +71,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
                 .hasDisease(hasDisease)
                 .diseaseName(parsed.get("diseaseName"))
                 .confidenceLevel(confidence)
-                .confidenceFlag(confidenceFlag)
+                .confidenceFlag(ConfidenceFlag.valueOf(confidenceFlag))
                 .description(parsed.get("description"))
                 .treatmentRecommendations(parsed.get("treatmentRecommendations"))
                 .pesticides(parsed.get("pesticides"))
@@ -156,7 +157,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
                 .hasDisease(d.getHasDisease())
                 .diseaseName(d.getDiseaseName())
                 .confidenceLevel(d.getConfidenceLevel())
-                .confidenceFlag(d.getConfidenceFlag())
+                .confidenceFlag(d.getConfidenceFlag().name())
                 .description(d.getDescription())
                 .treatmentRecommendations(d.getTreatmentRecommendations())
                 .pesticides(d.getPesticides())

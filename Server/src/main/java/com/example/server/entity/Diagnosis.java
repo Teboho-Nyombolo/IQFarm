@@ -1,5 +1,6 @@
 package com.example.server.entity;
 
+import com.example.server.enums.ConfidenceFlag;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -56,7 +57,7 @@ public class Diagnosis {
     private Double confidenceLevel;
 
     @Column(name = "confidence_flag")
-    private String confidenceFlag; // "HIGH", "MEDIUM", "LOW"
+    private ConfidenceFlag confidenceFlag; // "HIGH", "MEDIUM", "LOW"
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
