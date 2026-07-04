@@ -1,0 +1,333 @@
+<!-- ════════════════════════════════════════════════════════════
+     Top App Bar
+     ════════════════════════════════════════════════════════════ -->
+<header
+  class="w-full top-0 sticky z-50 bg-[#f8f9ff]/80 backdrop-blur-md border-b border-[#bdcabc]/30 flex justify-between items-center px-4 h-16"
+>
+  <div class="flex items-center gap-3">
+    <span class="material-symbols-outlined icon-filled text-[#006d36] text-2xl">agriculture</span>
+    <h1 class="font-['Manrope'] text-xl font-extrabold text-[#006d36]">Weather</h1>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <button
+      id="weather-search-btn"
+      aria-label="Search"
+      class="material-symbols-outlined text-[#3e4a3f] hover:bg-[#e5eeff] transition-colors p-2 rounded-full nav-btn"
+    >
+      search
+    </button>
+    <!-- Profile avatar placeholder -->
+    <div class="w-10 h-10 rounded-full bg-[#50c878] flex items-center justify-center ring-2 ring-[#006d36]/10">
+      <span class="material-symbols-outlined text-white icon-filled">person</span>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════
+     Loading skeleton
+     ════════════════════════════════════════════════════════════ -->
+@if (isLoading()) {
+  <main class="pb-24 max-w-screen-xl mx-auto px-4 pt-6 space-y-6">
+    <div class="skeleton h-48 w-full rounded-xl"></div>
+    <div class="skeleton h-8 w-40 rounded-lg"></div>
+    <div class="flex gap-4">
+      @for (_ of [1,2,3,4]; track $index) {
+        <div class="skeleton h-32 min-w-[100px] rounded-2xl flex-shrink-0"></div>
+      }
+    </div>
+    <div class="skeleton h-8 w-44 rounded-lg"></div>
+    <div class="skeleton h-44 w-full rounded-xl"></div>
+    <div class="skeleton h-44 w-full rounded-xl"></div>
+  </main>
+}
+
+<!-- ════════════════════════════════════════════════════════════
+     Error state
+     ════════════════════════════════════════════════════════════ -->
+@if (!isLoading() && errorMessage()) {
+  <main class="pb-24 max-w-screen-xl mx-auto">
+    <div class="px-4 pt-12 flex flex-col items-center gap-4 text-center">
+      <span class="material-symbols-outlined text-5xl text-[#d94f3d]">cloud_off</span>
+      <p class="font-['Hanken_Grotesk'] text-base text-[#3e4a3f]">{{ errorMessage() }}</p>
+      <p class="font-['Hanken_Grotesk'] text-sm text-[#6b7c6d]">
+        Check your connection or try again later.
+      </p>
+    </div>
+  </main>
+}
+
+<!-- ════════════════════════════════════════════════════════════
+     Main content
+     ════════════════════════════════════════════════════════════ -->
+@if (!isLoading() && !errorMessage()) {
+  <main class="pb-24 max-w-screen-xl mx-auto">
+
+    <!-- ── Today's Forecast Main Card ──────────────────────── -->
+    <section class="px-4 pt-6">
+      <div
+        class="bg-white rounded-xl p-6 card-shadow border border-[#bdcabc]/40 relative overflow-hidden"
+      >
+        <!-- Background mesh glow -->
+        <div class="mesh-glow"></div>
+
+        <div class="flex justify-between items-start relative z-10">
+          <!-- Left: temperature -->
+          <div>
+            <span
+              class="font-['JetBrains_Mono'] text-[10px] tracking-wider text-[#3e4a3f] block mb-1 uppercase"
+            >
+              @if (today()) {
+                Currently in your farm
+              } @else {
+                No weather data
+              }
+            </span>
+
+            @if (today()) {
+              <div class="flex items-baseline gap-2">
+                <span class="font-['Manrope'] text-6xl font-extrabold text-[#006d36]">
+                  {{ round(today()!.highTemp) }}°
+                </span>
+                <span class="font-['Manrope'] text-2xl text-[#006d36]/60">C</span>
+              </div>
+              <p class="font-['Hanken_Grotesk'] text-lg text-[#58605a] font-semibold mt-1">
+                {{ today()!.condition }}
+              </p>
+            } @else {
+              <p class="font-['Hanken_Grotesk'] text-base text-[#6b7c6d] mt-2">
+                No data available yet.
+              </p>
+            }
+          </div>
+
+          <!-- Right: icon + H/L -->
+          @if (today()) {
+            <div class="flex flex-col items-center">
+              <span
+                class="material-symbols-outlined text-6xl text-[#006d36]/80 icon-filled"
+              >
+                {{ todayIcon() }}
+              </span>
+              <span class="font-['JetBrains_Mono'] text-[11px] text-[#3e4a3f] mt-2 font-semibold">
+                H: {{ round(today()!.highTemp) }}°&nbsp;&nbsp;L: {{ round(today()!.lowTemp) }}°
+              </span>
+            </div>
+          }
+        </div>
+
+        <!-- Metrics grid -->
+        @if (today()) {
+          <div
+            class="grid grid-cols-2 gap-4 mt-8 pt-6 border-t border-[#bdcabc]/30 relative z-10"
+          >
+            <!-- Humidity -->
+            <div class="flex flex-col gap-1">
+              <div class="flex items-center gap-2 text-[#3e4a3f]">
+                <span class="material-symbols-outlined text-[18px]">humidity_percentage</span>
+                <span class="font-['JetBrains_Mono'] text-[10px] tracking-wider uppercase font-bold">
+                  Humidity
+                </span>
+              </div>
+              <span class="font-['Manrope'] text-xl text-[#006d36]">
+                {{ today()!.humidity }}%
+              </span>
+            </div>
+
+            <!-- Wind Speed -->
+            <div class="flex flex-col gap-1">
+              <div class="flex items-center gap-2 text-[#3e4a3f]">
+                <span class="material-symbols-outlined text-[18px]">air</span>
+                <span class="font-['JetBrains_Mono'] text-[10px] tracking-wider uppercase font-bold">
+                  Wind Speed
+                </span>
+              </div>
+              <span class="font-['Manrope'] text-xl text-[#006d36]">
+                {{ round(today()!.windSpeed) }} km/h
+              </span>
+            </div>
+
+            <!-- UV Index -->
+            <div class="flex flex-col gap-1">
+              <div class="flex items-center gap-2 text-[#3e4a3f]">
+                <span class="material-symbols-outlined text-[18px]">wb_sunny</span>
+                <span class="font-['JetBrains_Mono'] text-[10px] tracking-wider uppercase font-bold">
+                  UV Index
+                </span>
+              </div>
+              <span class="font-['Manrope'] text-xl text-[#006d36]">{{ uvLabel() }}</span>
+            </div>
+
+            <!-- Rain Chance -->
+            <div class="flex flex-col gap-1">
+              <div class="flex items-center gap-2 text-[#3e4a3f]">
+                <span class="material-symbols-outlined text-[18px]">rainy</span>
+                <span class="font-['JetBrains_Mono'] text-[10px] tracking-wider uppercase font-bold">
+                  Rain Chance
+                </span>
+              </div>
+              <span class="font-['Manrope'] text-xl text-[#006d36]">
+                {{ round(today()!.precipitation) }} mm
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- ── 7-Day Outlook ──────────────────────────────────── -->
+    <section class="mt-8">
+      <div class="px-4 flex justify-between items-center mb-4">
+        <h2 class="font-['Manrope'] text-xl font-semibold text-[#0b1c30]">7-Day Outlook</h2>
+        <button
+          id="weather-details-btn"
+          class="text-[#006d36] font-['JetBrains_Mono'] text-[11px] tracking-wider font-bold flex items-center gap-1 hover:underline"
+        >
+          DETAILS
+          <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+        </button>
+      </div>
+
+      <!-- Scrollable day cards -->
+      <div class="flex gap-4 overflow-x-auto px-4 pb-4 hide-scrollbar">
+        @for (card of dayCards(); track card.index) {
+          <button
+            [id]="'weather-day-card-' + card.index"
+            (click)="selectDay(card.index)"
+            [ngClass]="{
+              'bg-[#50c878] text-[#005025] border-[#006d36]/10': activeDayIndex() === card.index,
+              'bg-white text-[#3e4a3f] border-[#bdcabc]/40 card-shadow': activeDayIndex() !== card.index
+            }"
+            class="min-w-[100px] rounded-2xl p-4 flex flex-col items-center gap-2 day-card border"
+          >
+            <span
+              class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest font-bold"
+              [ngClass]="{
+                'opacity-80': activeDayIndex() === card.index,
+                'text-[#3e4a3f]': activeDayIndex() !== card.index
+              }"
+            >
+              {{ card.label }}
+            </span>
+
+            <span
+              class="material-symbols-outlined text-3xl"
+              [ngClass]="{
+                'icon-filled': activeDayIndex() === card.index,
+                'icon-outline text-[#3e4a3f]': activeDayIndex() !== card.index
+              }"
+            >
+              {{ card.icon }}
+            </span>
+
+            <div class="flex flex-col items-center">
+              <span
+                class="font-['Manrope'] text-lg"
+                [ngClass]="{ 'text-[#005025]': activeDayIndex() === card.index, 'text-[#006d36]': activeDayIndex() !== card.index }"
+              >
+                {{ card.high }}°
+              </span>
+              <span
+                class="font-['JetBrains_Mono'] text-[10px] font-bold"
+                [ngClass]="{
+                  'opacity-60': activeDayIndex() === card.index,
+                  'text-[#3e4a3f]': activeDayIndex() !== card.index
+                }"
+              >
+                {{ card.low }}°
+              </span>
+            </div>
+          </button>
+        }
+
+        <!-- Empty state when no data -->
+        @if (dayCards().length === 0) {
+          <p class="font-['Hanken_Grotesk'] text-sm text-[#6b7c6d] px-2">
+            No forecast data available.
+          </p>
+        }
+      </div>
+    </section>
+
+    <!-- ── Seasonal Insights ───────────────────────────────── -->
+    <section class="mt-8 px-4">
+      <h2 class="font-['Manrope'] text-xl font-semibold text-[#0b1c30] mb-4">
+        Seasonal Insights
+      </h2>
+
+      <div class="grid grid-cols-1 gap-4">
+
+        <!-- Insight Card 1 — Risk Alert -->
+        <div
+          class="insight-card bg-white rounded-xl p-3 card-shadow border border-[#bdcabc]/30 flex flex-col sm:flex-row gap-4 overflow-hidden"
+        >
+          <!-- Image placeholder (no external image needed) -->
+          <div
+            class="w-full sm:w-32 h-32 rounded-lg flex-shrink-0 bg-gradient-to-br from-[#ffdad6] via-[#fef3d8] to-[#e5eeff] flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined text-4xl text-[#d94f3d] icon-filled">severe_cold</span>
+          </div>
+
+          <div class="flex flex-col justify-center pr-2">
+            <div class="flex items-center gap-2 mb-1 flex-wrap">
+              <span
+                class="px-2 py-0.5 rounded bg-[#ffdad6] text-[#93000a] font-['JetBrains_Mono'] text-[9px] font-bold tracking-widest"
+              >
+                RISK ALERT
+              </span>
+              <h3 class="font-['Manrope'] text-base font-semibold text-[#0b1c30]">
+                Upcoming: Winter Prep
+              </h3>
+            </div>
+            <p class="font-['Hanken_Grotesk'] text-sm text-[#3e4a3f] mb-3">
+              Watch for frost risk and heavy rainfall in late December. Protect vulnerable seedlings.
+            </p>
+            <div class="p-3 bg-[#eff4ff] rounded-lg border-l-4 border-[#006d36]">
+              <p class="font-['Hanken_Grotesk'] text-sm text-[#0b1c30] font-medium italic">
+                "Focus on Winter Wheat and cover crops to preserve soil integrity."
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insight Card 2 — Optimal -->
+        <div
+          class="insight-card bg-white rounded-xl p-3 card-shadow border border-[#bdcabc]/30 flex flex-col sm:flex-row gap-4 overflow-hidden"
+        >
+          <!-- Image placeholder -->
+          <div
+            class="w-full sm:w-32 h-32 rounded-lg flex-shrink-0 bg-gradient-to-br from-[#83fba5]/40 via-[#e8f9ee] to-[#dce5dd] flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined text-4xl text-[#006d36] icon-filled">eco</span>
+          </div>
+
+          <div class="flex flex-col justify-center pr-2">
+            <div class="flex items-center gap-2 mb-1 flex-wrap">
+              <span
+                class="px-2 py-0.5 rounded bg-[#83fba5]/30 text-[#005025] font-['JetBrains_Mono'] text-[9px] font-bold tracking-widest"
+              >
+                OPTIMAL
+              </span>
+              <h3 class="font-['Manrope'] text-base font-semibold text-[#0b1c30]">Spring Outlook</h3>
+            </div>
+            <p class="font-['Hanken_Grotesk'] text-sm text-[#3e4a3f] mb-3">
+              Predicted early thaw and optimal moisture levels for early planting.
+            </p>
+            <div class="p-3 bg-[#eff4ff] rounded-lg border-l-4 border-[#50c878]">
+              <p class="font-['Hanken_Grotesk'] text-sm text-[#0b1c30] font-medium italic">
+                "High yield potential for Maize and Soybeans expected this season."
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+}<!-- end !isLoading && !errorMessage -->
+
+<!-- ════════════════════════════════════════════════════════════
+     Bottom Navigation Bar
+     ════════════════════════════════════════════════════════════ -->
+<app-navbar [activeTab]="'weather'"></app-navbar>
