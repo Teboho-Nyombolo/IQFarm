@@ -4,17 +4,17 @@ import { MobileOnlyComponent } from './shared/mobile-only/mobile-only.component'
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet, MobileOnlyComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  
+
   isMobile = true;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.checkScreenSize();
-
   }
 
   @HostListener('window:resize')
@@ -22,8 +22,9 @@ export class AppComponent implements OnInit {
     this.checkScreenSize();
   };
 
-  private checkScreenSize(){
-    this.isMobile = window.innerWidth <= 768;
+  checkScreenSize() {
+    const mobile = window.innerWidth <= 768;
+    this.isMobile = mobile;
   }
 
 }

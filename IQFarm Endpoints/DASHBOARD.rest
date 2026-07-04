@@ -4,4 +4,7 @@
 @SERVER = {{HOST}}{{PORT}}
 
 ### Get Weather Info
-GET {{SERVER}}/api/dashboard/8
+GET {{SERVER}}/api/dashboard/weather/8
+
+### Get Seasonal Info
+GET {{SERVER}}/api/dashboard/seasonal/8
