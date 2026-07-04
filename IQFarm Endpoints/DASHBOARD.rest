@@ -1,0 +1,7 @@
+@HOST = http://localhost:
+@PORT = 8080
+
+@SERVER = {{HOST}}{{PORT}}
+
+### Get Weather Info
+GET {{SERVER}}/api/dashboard/8
