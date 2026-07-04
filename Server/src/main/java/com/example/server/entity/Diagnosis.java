@@ -56,6 +56,7 @@ public class Diagnosis {
     @Column(name = "confidence_level")
     private Double confidenceLevel;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "confidence_flag")
     private ConfidenceFlag confidenceFlag; // "HIGH", "MEDIUM", "LOW"
 

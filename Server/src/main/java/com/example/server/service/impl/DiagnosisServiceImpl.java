@@ -13,8 +13,6 @@ import com.example.server.repository.CropTrackerRepository;
 import com.example.server.repository.DiagnosisRepository;
 import com.example.server.repository.ImageRepository;
 import com.example.server.service.DiagnosisService;
-import com.example.server.service.GeminiPromptBuilder;
-import com.example.server.service.GeminiResponseParser;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class DiagnosisServiceImpl implements DiagnosisService {
 
     private final DiagnosisRepository diagnosisRepository;
