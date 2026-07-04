@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { MobileOnlyComponent } from './shared/mobile-only/mobile-only.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, MobileOnlyComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
