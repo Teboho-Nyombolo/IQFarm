@@ -44,11 +44,7 @@
                     class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1B4332]">
             </div>
 
-            <button
-            (click)="goToFarm()"
-                class="w-full bg-[#1B4332] text-white py-3 rounded-lg hover:bg-[#153526] transition">
-                Farm Information
-            </button>
+
 
             <div>
                 <label class="block text-sm font-medium mb-2">
@@ -63,7 +59,7 @@
             </div>
 
             <button
-                type="submit"
+                (click)="register(); goToFarm()"
                 class="w-full bg-[#1B4332] text-white py-3 rounded-lg hover:bg-[#153526] transition">
                 Register
             </button>

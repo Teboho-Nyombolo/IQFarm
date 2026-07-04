@@ -25,7 +25,9 @@ export class RegisterComponent {
   register() {
         this.authService.register(this.user).subscribe({
           next: (response:any) => {
-            console.log(response);
+            
+            this.authService.setUserId(response.id);
+
             alert('Registration successful!');
           },
         error: (error:any) => {
