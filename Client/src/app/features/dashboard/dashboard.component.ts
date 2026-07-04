@@ -18,11 +18,11 @@ import { NgClass } from '@angular/common';
 /** Maps a crop status to a soil-moisture proxy percentage (0–100). */
 function statusToMoisturePercent(status: CropSummary['status']): number {
   switch (status) {
-    case 'ACTIVE':    return 78;
-    case 'PLANNING':  return 40;
+    case 'ACTIVE': return 78;
+    case 'PLANNING': return 40;
     case 'HARVESTED': return 100;
-    case 'FAILED':    return 10;
-    default:          return 50;
+    case 'FAILED': return 10;
+    default: return 50;
   }
 }
 
@@ -141,4 +141,5 @@ export class DashboardComponent implements OnInit {
   round(n: number): number {
     return Math.round(n);
   }
+
 }
