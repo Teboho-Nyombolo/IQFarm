@@ -1,29 +1,12 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MobileOnlyComponent } from './shared/mobile-only/mobile-only.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MobileOnlyComponent],
+  standalone: true,
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit {
-  
-  isMobile = true;
+export class AppComponent {}
 
-  ngOnInit(): void {
-    this.checkScreenSize();
-
-  }
-
-  @HostListener('window:resize')
-  onResize() {
-    this.checkScreenSize();
-  };
-
-  private checkScreenSize(){
-    this.isMobile = window.innerWidth <= 768;
-  }
-
-}
