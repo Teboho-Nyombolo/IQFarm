@@ -23,6 +23,9 @@ public class DiagnosisResponseDTO {
     private String symptoms;
     private String weatherConditions;
     private String locationRegion;
+    private String soilType;
+    private String soilHealth;
+    private String currentSeason;
     private Boolean hasDisease;
     private String diseaseName;
     private Double confidenceLevel;
@@ -30,6 +33,7 @@ public class DiagnosisResponseDTO {
     private String description;
     private String treatmentRecommendations;
     private String pesticides;
+    private String fertilizers;
     private String preventionTips;
     private LocalDateTime createdAt;
 }

@@ -47,6 +47,15 @@ public class Diagnosis {
     @Column(name = "location_region")
     private String locationRegion;
 
+    @Column(name = "soil_type")
+    private String soilType;
+
+    @Column(name = "soil_health")
+    private String soilHealth;
+
+    @Column(name = "current_season")
+    private String currentSeason;
+
     @Column(name = "has_disease", nullable = false)
     private Boolean hasDisease;
 
@@ -68,6 +77,9 @@ public class Diagnosis {
 
     @Column(name = "pesticides", columnDefinition = "TEXT")
     private String pesticides;
+
+    @Column(name = "fertilizers", columnDefinition = "TEXT")
+    private String fertilizers;
 
     @Column(name = "prevention_tips", columnDefinition = "TEXT")
     private String preventionTips;

@@ -92,6 +92,49 @@ public class GeminiClient {
         }
     }
 
+    public String analyzeTextPrompt(String prompt) {
+        System.out.println("=== GEMINI TEXT CALL START ===");
+        System.out.println("API Key present: " + (apiKey != null && !apiKey.isEmpty()));
+
+        if (apiKey == null || apiKey.isEmpty()) {
+            System.out.println("WARNING: GEMINI_API_KEY not set");
+            throw new RuntimeException("GEMINI_API_KEY not configured");
+        }
+
+        Map<String, Object> textPart = Map.of("text", prompt);
+        Map<String, Object> content = Map.of("parts", List.of(textPart));
+
+        Map<String, Object> requestBody = Map.of(
+                "contents", List.of(content),
+                "generationConfig", Map.of(
+                        "temperature", 0.3,
+                        "maxOutputTokens", 4096
+                )
+        );
+
+        String url = apiUrl + "?key=" + apiKey;
+
+        try {
+            String responseBody = restClient.post()
+                    .uri(url)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(requestBody)
+                    .retrieve()
+                    .onStatus(HttpStatusCode::isError, (request, response) -> {
+                        String errorBody = new String(response.getBody().readAllBytes());
+                        throw new RuntimeException("Gemini API error: HTTP " + response.getStatusCode() + " - " + errorBody);
+                    })
+                    .body(String.class);
+
+            System.out.println("Text response received successfully");
+            return extractTextFromResponse(responseBody);
+
+        } catch (RestClientException e) {
+            System.err.println("Gemini API error: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+            throw new RuntimeException("Gemini API error: " + e.getMessage(), e);
+        }
+    }
+
     private String extractTextFromResponse(String responseBody) {
         try {
             JsonNode root = objectMapper.readTree(responseBody);

@@ -1,0 +1,59 @@
+<header class="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm">
+  <div class="flex items-center justify-between px-4 h-16 max-w-md mx-auto">
+    <div class="flex items-center gap-3">
+      <button (click)="goBack()" class="p-2 -ml-2 rounded-full hover:bg-gray-50 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+        </svg>
+      </button>
+      <h1 class="text-[22px] font-bold text-primary tracking-tight">Crop Details</h1>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-md mx-auto w-full px-4 py-6 pb-28">
+  <div class="flex items-center gap-2 mb-6">
+    <button (click)="inspectPlant()" class="w-full py-3 bg-primary text-white rounded-xl text-base font-semibold">
+      Inspect Plant
+    </button>
+  </div>
+
+  <div *ngIf="isLoading()" class="flex justify-center py-8">
+    <span class="text-text-muted">Loading...</span>
+  </div>
+
+  <div *ngIf="!isLoading()">
+    <section class="mb-8">
+      <h2 class="text-lg font-bold mb-3">Diagnosis History</h2>
+      <div *ngIf="diagnoses().length === 0" class="text-text-muted text-center py-4">
+        No diagnoses yet. Upload a photo to inspect your plant!
+      </div>
+      <div *ngFor="let d of diagnoses()" class="mb-4 bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+        <img [src]="d.imageUrl" alt="Plant photo" class="w-full h-40 object-cover rounded-xl mb-3">
+        <div class="flex items-center justify-between mb-2">
+          <span [class]="d.hasDisease ? 'text-red-500' : 'text-green-600'" class="font-bold">
+            {{ d.hasDisease ? 'Disease detected' : 'Healthy' }}
+          </span>
+          <span class="text-sm text-text-muted">{{ new Date(d.createdAt).toLocaleDateString() }}</span>
+        </div>
+        <p class="text-sm mb-2"><span class="font-semibold">Disease:</span> {{ d.diseaseName }}</p>
+        <p class="text-sm mb-1"><span class="font-semibold">Confidence:</span> {{ d.confidenceLevel.toFixed(0) }}% ({{ d.confidenceFlag }})</p>
+        <p *ngIf="d.description" class="text-sm text-text-muted mb-2">{{ d.description }}</p>
+        <div *ngIf="d.treatmentRecommendations" class="mt-2">
+          <h3 class="text-sm font-semibold mb-1">Treatment</h3>
+          <p class="text-sm text-text-muted">{{ d.treatmentRecommendations }}</p>
+        </div>
+        <div *ngIf="d.pesticides" class="mt-2">
+          <h3 class="text-sm font-semibold mb-1">Pesticides</h3>
+          <p class="text-sm text-text-muted">{{ d.pesticides }}</p>
+        </div>
+        <div *ngIf="d.fertilizers" class="mt-2">
+          <h3 class="text-sm font-semibold mb-1">Fertilizers</h3>
+          <p class="text-sm text-text-muted">{{ d.fertilizers }}</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<app-navbar [activeTab]="'crops'"></app-navbar>

@@ -16,6 +16,7 @@ public class GeminiResponseParser {
         result.put("description", "");
         result.put("treatmentRecommendations", "");
         result.put("pesticides", "");
+        result.put("fertilizers", "");
         result.put("preventionTips", "");
 
         String[] lines = rawResponse.split("\n");
@@ -50,6 +51,10 @@ public class GeminiResponseParser {
             } else if (line.startsWith("PESTICIDES:")) {
                 saveCurrentField(result, currentKey, currentField);
                 currentKey = "pesticides";
+                currentField = new StringBuilder(extractValue(line));
+            } else if (line.startsWith("FERTILIZERS:")) {
+                saveCurrentField(result, currentKey, currentField);
+                currentKey = "fertilizers";
                 currentField = new StringBuilder(extractValue(line));
             } else if (line.startsWith("PREVENTION_TIPS:")) {
                 saveCurrentField(result, currentKey, currentField);

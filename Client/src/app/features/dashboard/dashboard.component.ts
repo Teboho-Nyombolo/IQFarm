@@ -9,9 +9,8 @@ import {
 import { isPlatformBrowser, NgClass } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { WeatherService } from '../weather/services/weather.service';
-import { CropService } from './services/crop.service';
+import { CropService, CropSummary } from '../../core/services/crop.service';
 import { DailyWeather } from '../weather/models/weather.model';
-import { CropSummary, DiseaseReference } from './models/dashboard.model';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 
 /** Maps a crop status to a soil-moisture proxy percentage (0–100). */
@@ -87,7 +86,7 @@ export class DashboardComponent implements OnInit {
   });
 
   // ─── Static Disease Data ────────────────────────────────────
-  readonly diseases: DiseaseReference[] = [
+  readonly diseases: { crop: string; disease: string; severity: string; description: string; imageSrc: string }[] = [
     {
       crop: 'Tomato',
       disease: 'Late Blight',

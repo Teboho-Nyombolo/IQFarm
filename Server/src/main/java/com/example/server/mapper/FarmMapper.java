@@ -15,8 +15,8 @@ public class FarmMapper {
             return null;
 
         return  FarmResponseDTO.builder()
+                .farmId(request.getFarmId())
                 .farmName(request.getFarmName())
-                .farmOwner(request.getFarmOwner())
                 .farmAddress(request.getLocation())
                 .latitude(request.getLatitude())
                 .longitude(request.getLongitude())

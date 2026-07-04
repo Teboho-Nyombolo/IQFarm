@@ -1,4 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MobileOnlyComponent } from './shared/mobile-only/mobile-only.component';
 
@@ -11,15 +12,20 @@ import { MobileOnlyComponent } from './shared/mobile-only/mobile-only.component'
 })
 export class AppComponent implements OnInit {
 
+  readonly #platformId = inject(PLATFORM_ID);
   isMobile = true;
 
   ngOnInit() {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.#platformId)) {
+      this.checkScreenSize();
+    }
   }
 
   @HostListener('window:resize')
   onResize() {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.#platformId)) {
+      this.checkScreenSize();
+    }
   };
 
   checkScreenSize() {

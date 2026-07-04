@@ -65,6 +65,9 @@ public class DiagnosisServiceImpl implements DiagnosisService {
                 .symptoms(request.getSymptoms())
                 .weatherConditions(request.getWeatherConditions())
                 .locationRegion(request.getLocationRegion())
+                .soilType(request.getSoilType())
+                .soilHealth(request.getSoilHealth())
+                .currentSeason(request.getCurrentSeason())
                 .hasDisease(hasDisease)
                 .diseaseName(parsed.get("diseaseName"))
                 .confidenceLevel(confidence)
@@ -72,6 +75,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
                 .description(parsed.get("description"))
                 .treatmentRecommendations(parsed.get("treatmentRecommendations"))
                 .pesticides(parsed.get("pesticides"))
+                .fertilizers(parsed.get("fertilizers"))
                 .preventionTips(parsed.get("preventionTips"))
                 .rawResponse(rawResponse);
 
@@ -151,6 +155,9 @@ public class DiagnosisServiceImpl implements DiagnosisService {
                 .symptoms(d.getSymptoms())
                 .weatherConditions(d.getWeatherConditions())
                 .locationRegion(d.getLocationRegion())
+                .soilType(d.getSoilType())
+                .soilHealth(d.getSoilHealth())
+                .currentSeason(d.getCurrentSeason())
                 .hasDisease(d.getHasDisease())
                 .diseaseName(d.getDiseaseName())
                 .confidenceLevel(d.getConfidenceLevel())
@@ -158,6 +165,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
                 .description(d.getDescription())
                 .treatmentRecommendations(d.getTreatmentRecommendations())
                 .pesticides(d.getPesticides())
+                .fertilizers(d.getFertilizers())
                 .preventionTips(d.getPreventionTips())
                 .createdAt(d.getCreatedAt())
                 .build();

@@ -1,7 +1,10 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CropService, CropRequest } from '../../../core/services/crop.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { FarmService, FarmResponse } from '../../../core/services/farm.service';
 
 type UploadType = 'plant' | 'soil';
 
@@ -12,24 +15,37 @@ type UploadType = 'plant' | 'soil';
   templateUrl: './add-crop.component.html',
   styleUrls: ['./add-crop.component.css']
 })
-export class AddCropComponent {
+export class AddCropComponent implements OnInit {
   readonly #router = inject(Router);
   readonly #fb = inject(FormBuilder);
+  readonly #cropService = inject(CropService);
+  readonly #authService = inject(AuthService);
+  readonly #farmService = inject(FarmService);
 
-  /** Currently selected upload type radio */
   uploadType = signal<UploadType>('plant');
-
-  /** Preview URL for the chosen photo (null = nothing uploaded yet) */
   previewUrl = signal<string | null>(null);
-
-  /** Controls success modal visibility */
   showSuccessModal = signal(false);
+  isLoading = signal(false);
+  farmId = signal<number | null>(null);
 
-  /** Form group */
   form: FormGroup = this.#fb.group({
+    cropName: ['', [Validators.required, Validators.minLength(2)]],
     cropType: ['', [Validators.required, Validators.minLength(2)]],
-    budget: [null, [Validators.required, Validators.min(0)]]
+    cropCount: [1, [Validators.required, Validators.min(1)]],
+    waterFrequency: [''],
+    minerals: ['']
   });
+
+  ngOnInit(): void {
+    this.#farmService.getFarmByOwnerId(this.#authService.getUserId()).subscribe({
+      next: (farm: FarmResponse | null) => {
+        this.farmId.set(farm?.farmId ?? null);
+      },
+      error: (err: any) => {
+        console.error('Failed to get farm:', err);
+      }
+    });
+  }
 
   selectUploadType(type: UploadType): void {
     this.uploadType.set(type);
@@ -50,11 +66,34 @@ export class AddCropComponent {
   }
 
   onSubmit(): void {
-    if (this.form.invalid) {
+    if (this.form.invalid || !this.farmId()) {
       this.form.markAllAsTouched();
       return;
     }
-    this.showSuccessModal.set(true);
+
+    this.isLoading.set(true);
+    const cropRequest: CropRequest = {
+      farmId: this.farmId()!,
+      cropName: this.form.value.cropName,
+      cropType: this.form.value.cropType,
+      cropCount: this.form.value.cropCount,
+      waterFrequency: this.form.value.waterFrequency,
+      minerals: this.form.value.minerals,
+      cropDate: new Date().toISOString().split('T')[0]
+    };
+
+    this.#cropService.createCrop(cropRequest).subscribe({
+      next: (response) => {
+        console.log('Crop created successfully:', response);
+        this.isLoading.set(false);
+        this.showSuccessModal.set(true);
+      },
+      error: (error) => {
+        this.isLoading.set(false);
+        console.error('Error creating crop:', error);
+        alert('Failed to create crop!');
+      }
+    });
   }
 
   closeModal(): void {
@@ -66,13 +105,18 @@ export class AddCropComponent {
     this.#router.navigate(['/crops']);
   }
 
+  get cropNameInvalid(): boolean {
+    const ctrl = this.form.get('cropName');
+    return !!(ctrl?.invalid && ctrl.touched);
+  }
+
   get cropTypeInvalid(): boolean {
     const ctrl = this.form.get('cropType');
     return !!(ctrl?.invalid && ctrl.touched);
   }
 
-  get budgetInvalid(): boolean {
-    const ctrl = this.form.get('budget');
+  get cropCountInvalid(): boolean {
+    const ctrl = this.form.get('cropCount');
     return !!(ctrl?.invalid && ctrl.touched);
   }
 }

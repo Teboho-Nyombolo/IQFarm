@@ -28,86 +28,24 @@
 <main class="max-w-md mx-auto w-full px-4 py-6 pb-28 flex flex-col gap-6">
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-6" id="addCropForm" novalidate>
 
-    <!-- ─── Upload Type ──────────────────────────────── -->
-    <section class="flex flex-col gap-2">
-      <span class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Upload Type</span>
-      <div class="grid grid-cols-2 gap-2">
-
-        <!-- Plant / Leaf Photo -->
-        <button
-          type="button"
-          id="btn-upload-plant"
-          (click)="selectUploadType('plant')"
-          [class]="uploadType() === 'plant'
-            ? 'flex flex-col items-center justify-center gap-1.5 h-24 rounded-xl border-2 border-primary bg-primary-surface text-primary transition-all'
-            : 'flex flex-col items-center justify-center gap-1.5 h-24 rounded-xl border border-border bg-white text-text-muted hover:bg-primary-surface hover:border-primary transition-all'">
-          <!-- Leaf icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17 8C8 10 5.9 16.17 3.82 21.7L5.71 22c1-2.5 2-4.94 5.29-6.29C11 19 12 21 12 21s3-4 1-9c2 1 3.5 3 4 6 1-1.5 2-4.5 0-10z"/>
-          </svg>
-          <span class="text-sm font-semibold">Plant/Leaf Photo</span>
-        </button>
-
-        <!-- Soil Photo -->
-        <button
-          type="button"
-          id="btn-upload-soil"
-          (click)="selectUploadType('soil')"
-          [class]="uploadType() === 'soil'
-            ? 'flex flex-col items-center justify-center gap-1.5 h-24 rounded-xl border-2 border-primary bg-primary-surface text-primary transition-all'
-            : 'flex flex-col items-center justify-center gap-1.5 h-24 rounded-xl border border-border bg-white text-text-muted hover:bg-primary-surface hover:border-primary transition-all'">
-          <!-- Grass / soil icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 20h-1v-6.24A5 5 0 0 0 7 9v-.15A3 3 0 0 0 4 6a3 3 0 0 0-3 3c0 1.3.84 2.4 2 2.82V20H2v2h20v-2h-1v-4a5 5 0 0 0-5-5 5 5 0 0 0-4 2z"/>
-          </svg>
-          <span class="text-sm font-semibold">Soil Photo</span>
-        </button>
-
-      </div>
-    </section>
-
-    <!-- ─── Analysis Photo Dropzone ─────────────────── -->
-    <section class="flex flex-col gap-2">
-      <span class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Analysis Photo</span>
-
-      <!-- Hidden file input -->
-      <input
-        id="photoUpload"
-        type="file"
-        accept="image/*"
-        capture="environment"
-        class="hidden"
-        (change)="onFilePicked($event)"/>
-
-      <!-- Dropzone -->
-      <div
-        id="btn-dropzone"
-        role="button"
-        tabindex="0"
-        (click)="onDropzoneTap()"
-        (keydown.enter)="onDropzoneTap()"
-        class="group relative w-full h-48 border-2 border-dashed border-border rounded-2xl flex flex-col items-center justify-center gap-2
-               bg-primary-surface hover:border-primary hover:bg-white transition-colors cursor-pointer overflow-hidden focus-visible:ring-2 focus-visible:ring-primary">
-
-        <!-- Photo preview -->
-        @if (previewUrl()) {
-          <img [src]="previewUrl()" alt="Crop sample preview" class="absolute inset-0 w-full h-full object-cover rounded-2xl"/>
-          <div class="absolute inset-0 bg-black/20 flex items-end justify-center pb-3">
-            <span class="text-white text-xs font-semibold bg-black/40 rounded-full px-3 py-1">Tap to change photo</span>
-          </div>
-        } @else {
-          <!-- Camera icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 15.2A3.2 3.2 0 1 0 12 8.8a3.2 3.2 0 0 0 0 6.4z"/>
-            <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
-          </svg>
-          <p class="text-sm text-text-muted text-center px-6">Tap to capture or upload agricultural sample</p>
-        }
-      </div>
-    </section>
-
     <!-- ─── Text Inputs ─────────────────────────────── -->
     <div class="flex flex-col gap-5">
+
+      <!-- Crop Name -->
+      <div class="flex flex-col gap-1">
+        <label for="cropName" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Crop Name</label>
+        <input
+          id="cropName"
+          type="text"
+          formControlName="cropName"
+          placeholder="e.g. Golden Corn"
+          class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text
+                 placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors"
+          [class.border-danger]="cropNameInvalid"/>
+        @if (cropNameInvalid) {
+          <span class="text-xs text-danger mt-0.5">Crop name is required (min 2 characters).</span>
+        }
+      </div>
 
       <!-- Crop Type -->
       <div class="flex flex-col gap-1">
@@ -116,7 +54,7 @@
           id="cropType"
           type="text"
           formControlName="cropType"
-          placeholder="e.g. Golden Corn"
+          placeholder="e.g. Vegetable, Grain"
           class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text
                  placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors"
           [class.border-danger]="cropTypeInvalid"/>
@@ -125,41 +63,71 @@
         }
       </div>
 
-      <!-- Available Budget -->
+      <!-- Crop Count -->
       <div class="flex flex-col gap-1">
-        <label for="budget" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Available Budget</label>
-        <div class="flex items-center border-b border-border focus-within:border-primary transition-colors"
-             [class.border-danger]="budgetInvalid">
-          <span class="text-primary font-bold text-lg mr-2">$</span>
-          <input
-            id="budget"
-            type="number"
-            min="0"
-            formControlName="budget"
-            placeholder="0.00"
-            class="w-full border-0 bg-transparent py-2 text-base text-text
-                   placeholder:text-neutral-light focus:outline-none focus:ring-0"/>
-        </div>
-        @if (budgetInvalid) {
-          <span class="text-xs text-danger mt-0.5">Please enter a valid budget (≥ 0).</span>
+        <label for="cropCount" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Crop Count</label>
+        <input
+          id="cropCount"
+          type="number"
+          min="1"
+          formControlName="cropCount"
+          placeholder="100"
+          class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text
+                 placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors"
+          [class.border-danger]="cropCountInvalid"/>
+        @if (cropCountInvalid) {
+          <span class="text-xs text-danger mt-0.5">Please enter a valid count (≥ 1).</span>
         }
+      </div>
+
+      <!-- Water Frequency -->
+      <div class="flex flex-col gap-1">
+        <label for="waterFrequency" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Water Frequency</label>
+        <input
+          id="waterFrequency"
+          type="text"
+          formControlName="waterFrequency"
+          placeholder="e.g. Daily, Every 2 Days"
+          class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text
+                 placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors"/>
+      </div>
+
+      <!-- Minerals -->
+      <div class="flex flex-col gap-1">
+        <label for="minerals" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Minerals</label>
+        <input
+          id="minerals"
+          type="text"
+          formControlName="minerals"
+          placeholder="e.g. Nitrogen, Potassium"
+          class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text
+                 placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors"/>
       </div>
 
     </div>
 
-    <!-- ─── Submit Button ──────────────────────────── -->
-    <button
-      id="btn-add-crop"
-      type="submit"
-      class="mt-2 w-full bg-primary-dark text-white py-4 rounded-xl text-lg font-bold
-             flex items-center justify-center gap-2
-             shadow-[0_4px_14px_rgba(50,148,83,0.35)]
-             hover:opacity-90 active:scale-[0.98] transition-all">
-      <span>Add New Crop</span>
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
-      </svg>
-    </button>
+    <!-- Loading state -->
+    @if (isLoading()) {
+      <div class="flex items-center justify-center gap-2 py-2">
+        <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+        <span class="text-text-muted">Adding crop...</span>
+      </div>
+    } @else {
+      <!-- ─── Submit Button ──────────────────────────── -->
+      <button
+        id="btn-add-crop"
+        type="submit"
+        [disabled]="!farmId()"
+        class="mt-2 w-full bg-primary text-white py-4 rounded-xl text-lg font-bold
+               flex items-center justify-center gap-2
+               hover:opacity-90 active:scale-[0.98] transition-all
+               disabled:opacity-50 disabled:cursor-not-allowed">
+        <span>Add New Crop</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+        </svg>
+      </button>
+    }
 
   </form>
 </main>
@@ -178,21 +146,21 @@
 
       <!-- Success icon -->
       <div class="w-16 h-16 bg-primary-surface rounded-full flex items-center justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9 text-primary-dark" viewBox="0 0 24 24" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-9 text-primary" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5-4.5-4.5 1.41-1.41L10 13.67l7.59-7.59L19 7.5l-9 9z"/>
         </svg>
       </div>
 
-      <h2 class="text-xl font-bold text-primary-dark">Crop Added Successfully</h2>
+      <h2 class="text-xl font-bold text-text">Crop Added Successfully</h2>
       <p class="text-sm text-text-muted">
-        The new agricultural data point has been logged and queued for AI precision analysis.
+        The new crop has been added to your farm.
       </p>
 
       <button
         id="btn-back-to-dashboard"
         type="button"
         (click)="closeModal()"
-        class="mt-2 w-full bg-primary-dark text-white py-3 rounded-xl text-base font-semibold
+        class="mt-2 w-full bg-primary text-white py-3 rounded-xl text-base font-semibold
                hover:opacity-90 active:scale-[0.98] transition-all">
         Back to Crops
       </button>

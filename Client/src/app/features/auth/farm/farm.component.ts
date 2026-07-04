@@ -1,50 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FarmServiceService } from '../../../core/farm-service.service';
-import { AuthServiceService } from '../../../core/auth-service.service';
+import { FarmService, FarmRequest } from '../../../core/services/farm.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-farm',
+  standalone: true,
   imports: [FormsModule],
   templateUrl: './farm.component.html',
   styleUrl: './farm.component.css'
 })
 export class FarmComponent {
+  readonly #farmService = inject(FarmService);
+  readonly #authService = inject(AuthService);
+  readonly #router = inject(Router);
 
-
-  farm={
-    ownerId:0,
-    farmName:'',
-    streetAddress:'',
-    suburb:'',
-    city:'',
-    zipCode:''
-  }
-
-  farmRequest = {
-    ownerId: 0,
-    address:''
-  }
-
-  constructor( private farmService: FarmServiceService, private authService: AuthServiceService) {}
-  
+  farm = {
+    farmName: '',
+    streetAddress: '',
+    suburb: '',
+    city: '',
+    zipCode: ''
+  };
 
   createFarm() {
+    const farmRequest: FarmRequest = {
+      ownerId: this.#authService.getUserId(),
+      farmName: this.farm.farmName,
+      farmAddress: `${this.farm.streetAddress}, ${this.farm.suburb}, ${this.farm.city}, ${this.farm.zipCode}`
+    };
 
-    this.farmRequest.ownerId = this.authService.getUserId();
-    this.farmRequest.address =  this.farm.streetAddress + ', ' +
-    this.farm.suburb + ', ' +
-    this.farm.city + ', ' +
-    this.farm.zipCode;
-
-    this.farmService.createFarm(this.farmRequest).subscribe({
+    this.#farmService.createFarm(farmRequest).subscribe({
       next: (response) => {
         console.log('Farm created successfully:', response);
+        alert('Farm created successfully!');
+        this.#router.navigate(['/dashboard']);
       },
       error: (error) => {
         console.error('Error creating farm:', error);
+        alert('Failed to create farm!');
       }
     });
   }
-
 }

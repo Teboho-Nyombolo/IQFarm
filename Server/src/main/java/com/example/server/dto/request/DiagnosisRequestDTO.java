@@ -19,5 +19,8 @@ public class DiagnosisRequestDTO {
     private String symptoms;
     private String weatherConditions;
     private String locationRegion;
+    private String soilType;
+    private String soilHealth;
+    private String currentSeason;
 
 }

@@ -21,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -56,11 +57,15 @@ public class FarmServiceImpl implements FarmService {
 
         Farm farm = farmMapper.toEntity(farmRequestDTO, owner);
 
-
-
         this.farmRepository.save(farm);
 
         return farmMapper.toResponseDTO(farm);
+    }
+
+    @Override
+    public FarmResponseDTO getFarmByOwnerId(Long ownerId) {
+        Optional<Farm> farm = farmRepository.findByFarmOwner_UserId(ownerId);
+        return farm.map(farmMapper::toResponseDTO).orElse(null);
     }
 
     public boolean checkUser(Long ownerId){

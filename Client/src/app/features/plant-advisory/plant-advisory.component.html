@@ -1,0 +1,151 @@
+<header class="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm">
+  <div class="flex items-center justify-between px-4 h-16 max-w-md mx-auto">
+    <div class="flex items-center gap-3">
+      <button (click)="resetForm()" class="p-2 -ml-2 rounded-full hover:bg-gray-50 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+        </svg>
+      </button>
+      <h1 class="text-[22px] font-bold text-primary tracking-tight">
+        {{ advisoryResponse() ? 'Growing ' + advisoryResponse()?.plantName : 'Get Plant Advice' }}
+      </h1>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17 8C8 10 5.9 16.17 3.82 21.7L5.71 22c1-2.5 2-4.94 5.29-6.29C11 19 12 21 12 21s3-4 1-9c2 1 3.5 3 4 6 1-1.5 2-4.5 0-10z"/>
+    </svg>
+  </div>
+</header>
+
+<main class="max-w-md mx-auto w-full px-4 py-6 pb-28">
+  <div *ngIf="!advisoryResponse()">
+    <form [formGroup]="advisoryForm" (ngSubmit)="submitAdvisoryRequest()" class="flex flex-col gap-4">
+      <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Plant to Grow</label>
+        <input id="plantName" type="text" formControlName="plantName"
+               placeholder="e.g. Maize, Spinach, Tomatoes"
+               class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors"
+               [class.border-danger]="advisoryForm.get('plantName')?.invalid && advisoryForm.get('plantName')?.touched" />
+        <div *ngIf="advisoryForm.get('plantName')?.invalid && advisoryForm.get('plantName')?.touched"
+             class="text-xs text-danger mt-0.5">
+          Please enter a plant name
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Location (optional)</label>
+        <input id="location" type="text" formControlName="location"
+               placeholder="e.g. Johannesburg, South Africa"
+               class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors" />
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Season (optional)</label>
+        <input id="season" type="text" formControlName="season"
+               placeholder="e.g. Summer, Winter"
+               class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors" />
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Soil Type (optional)</label>
+        <input id="soilType" type="text" formControlName="soilType"
+               placeholder="e.g. Loamy, Sandy, Clay"
+               class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors" />
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Soil Health (optional)</label>
+        <input id="soilHealth" type="text" formControlName="soilHealth"
+               placeholder="e.g. Good, Poor, Fertile"
+               class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors" />
+      </div>
+
+      <button type="submit" [disabled]="isLoading()"
+              class="mt-4 w-full bg-primary text-white py-4 rounded-xl text-lg font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+        <span *ngIf="!isLoading()">Get Growing Advice</span>
+        <div *ngIf="isLoading()" class="flex items-center gap-2">
+          <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+          <span>Generating Advice...</span>
+        </div>
+      </button>
+    </form>
+  </div>
+
+  <div *ngIf="advisoryResponse()" class="flex flex-col gap-5">
+    <div *ngIf="advisoryResponse()?.plantingAdvice" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 p-4">
+      <h3 class="text-lg font-bold text-text mb-2 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+        </svg>
+        Planting Advice
+      </h3>
+      <p class="text-sm text-text-muted leading-relaxed">{{ advisoryResponse()?.plantingAdvice }}</p>
+    </div>
+
+    <div *ngIf="advisoryResponse()?.waterRequirements" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 p-4">
+      <h3 class="text-lg font-bold text-text mb-2 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2c0-3.32-2.67-7.25-8-11.8zm0 18c-3.35 0-6-2.57-6-6.2 0-2.34 1.95-5.44 6-9.14 4.05 3.7 6 6.79 6 9.14 0 3.63-2.65 6.2-6 6.2z"/>
+        </svg>
+        Water Requirements
+      </h3>
+      <p class="text-sm text-text-muted leading-relaxed">{{ advisoryResponse()?.waterRequirements }}</p>
+    </div>
+
+    <div *ngIf="advisoryResponse()?.fertilizerRecommendations" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 p-4">
+      <h3 class="text-lg font-bold text-text mb-2 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        </svg>
+        Fertilizer Recommendations
+      </h3>
+      <p class="text-sm text-text-muted leading-relaxed">{{ advisoryResponse()?.fertilizerRecommendations }}</p>
+    </div>
+
+    <div *ngIf="advisoryResponse()?.pestAndDiseaseTips" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 p-4">
+      <h3 class="text-lg font-bold text-text mb-2 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2c0-3.32-2.67-7.25-8-11.8zm0 18c-3.35 0-6-2.57-6-6.2 0-2.34 1.95-5.44 6-9.14 4.05 3.7 6 6.79 6 9.14 0 3.63-2.65 6.2-6 6.2z"/>
+        </svg>
+        Pest & Disease Tips
+      </h3>
+      <p class="text-sm text-text-muted leading-relaxed">{{ advisoryResponse()?.pestAndDiseaseTips }}</p>
+    </div>
+
+    <div *ngIf="advisoryResponse()?.harvestTimingRecommendations" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 p-4">
+      <h3 class="text-lg font-bold text-text mb-2 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7l-3-3.72L9 12.72 6 9h12l-4 6z"/>
+        </svg>
+        Harvest Timing
+      </h3>
+      <p class="text-sm text-text-muted leading-relaxed">{{ advisoryResponse()?.harvestTimingRecommendations }}</p>
+    </div>
+
+    <div *ngIf="advisoryResponse()?.additionalRecommendations" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 p-4">
+      <h3 class="text-lg font-bold text-text mb-2 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        Additional Tips
+      </h3>
+      <p class="text-sm text-text-muted leading-relaxed">{{ advisoryResponse()?.additionalRecommendations }}</p>
+    </div>
+
+    <div *ngIf="advisoryResponse()?.warnings" class="bg-red-50 rounded-2xl overflow-hidden shadow-sm border border-red-200 p-4">
+      <h3 class="text-lg font-bold text-red-700 mb-2 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-700" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        Important Warnings
+      </h3>
+      <p class="text-sm text-red-700 leading-relaxed">{{ advisoryResponse()?.warnings }}</p>
+    </div>
+
+    <button type="button" (click)="resetForm()"
+            class="mt-4 w-full bg-primary text-white py-4 rounded-xl text-lg font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all">
+      Get Advice for Another Plant
+    </button>
+  </div>
+</main>
+
+<app-navbar [activeTab]="'crops'"></app-navbar>

@@ -1,7 +1,6 @@
-import { HttpClient} from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthServiceService } from '../../../core/auth-service.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,7 +25,7 @@ export class RegisterComponent {
 
 
 
-  constructor( private authService: AuthServiceService, private router: Router, private http: HttpClient ) {}
+  constructor( private authService: AuthService, private router: Router ) {}
 
   register() {
     if (!this.validateForm()) {
@@ -37,10 +36,12 @@ export class RegisterComponent {
 
     this.authService.register(this.user).subscribe({
       next: (response: any) => {
-        this.authService.setUserId(response.id);
-        this.isSubmitting = false;
-        alert('Registration successful!');
-        this.goToFarm();
+        if (response.success && response.data) {
+          this.authService.setUserId(response.data.userId);
+          this.isSubmitting = false;
+          alert('Registration successful!');
+          this.goToFarm();
+        }
       },
       error: (error: any) => {
         this.isSubmitting = false;

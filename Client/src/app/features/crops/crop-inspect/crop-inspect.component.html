@@ -1,0 +1,126 @@
+<header class="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm">
+  <div class="flex items-center justify-between px-4 h-16 max-w-md mx-auto">
+    <div class="flex items-center gap-3">
+      <button (click)="goBack()" class="p-2 -ml-2 rounded-full hover:bg-gray-50 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+        </svg>
+      </button>
+      <h1 class="text-[22px] font-bold text-primary tracking-tight">Inspect Plant</h1>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-md mx-auto w-full px-4 py-6 pb-28">
+  <div *ngIf="!diagnosisResult()">
+    <div class="mb-6">
+      <div class="flex items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-4 cursor-pointer" (click)="document.getElementById('photoUpload')?.click()">
+        <div *ngIf="!previewUrl()" class="flex flex-col items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zm-8.5-6l2.5 3 3.5-4.5 4.5 6H5l5.5-8z"/>
+          </svg>
+          <p class="text-sm text-gray-500">Click to upload photo</p>
+        </div>
+        <img *ngIf="previewUrl()" [src]="previewUrl()" alt="Preview" class="w-full h-60 object-cover rounded-lg">
+      </div>
+      <input id="photoUpload" type="file" accept="image/*" (change)="onFileSelected($event)" class="hidden">
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
+      <div class="flex flex-col gap-1">
+        <label for="cropName" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Crop Name</label>
+        <input id="cropName" type="text" formControlName="cropName" placeholder="e.g., Maize" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors" [class.border-danger]="form.get('cropName')?.invalid && form.get('cropName')?.touched">
+        <div *ngIf="form.get('cropName')?.invalid && form.get('cropName')?.touched" class="text-xs text-danger">Crop name is required</div>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="plantAge" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Plant Age</label>
+        <input id="plantAge" type="text" formControlName="plantAge" placeholder="e.g., 2 weeks" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="symptoms" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Symptoms</label>
+        <input id="symptoms" type="text" formControlName="symptoms" placeholder="Describe any symptoms" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="weatherConditions" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Weather Conditions</label>
+        <input id="weatherConditions" type="text" formControlName="weatherConditions" placeholder="e.g., Sunny, 25°C" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="locationRegion" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Location</label>
+        <input id="locationRegion" type="text" formControlName="locationRegion" placeholder="e.g., Nairobi, Kenya" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="soilType" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Soil Type</label>
+        <input id="soilType" type="text" formControlName="soilType" placeholder="e.g., Loamy" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="soilHealth" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Soil Health</label>
+        <input id="soilHealth" type="text" formControlName="soilHealth" placeholder="e.g., Good, Fertile" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label for="currentSeason" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Current Season</label>
+        <input id="currentSeason" type="text" formControlName="currentSeason" placeholder="e.g., Rainy" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors">
+      </div>
+
+      <button type="submit" [disabled]="isLoading()" class="mt-4 w-full bg-primary text-white py-3.5 rounded-xl text-lg font-semibold">
+        <span *ngIf="!isLoading()">Analyze</span>
+        <span *ngIf="isLoading()">Analyzing...</span>
+      </button>
+    </form>
+  </div>
+
+  <div *ngIf="diagnosisResult()" class="flex flex-col gap-4">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+      <img [src]="diagnosisResult()?.imageUrl" alt="Uploaded photo" class="w-full h-48 object-cover rounded-xl mb-4">
+      <div class="flex items-center justify-between mb-2">
+        <span [class]="diagnosisResult()?.hasDisease ? 'text-red-500' : 'text-green-600'" class="text-xl font-bold">
+          {{ diagnosisResult()?.hasDisease ? 'Disease detected' : 'Looks healthy!' }}
+        </span>
+        <span class="text-sm text-text-muted">
+          {{ diagnosisResult()?.createdAt ? (diagnosisResult()?.createdAt | date:'short') : '' }}
+        </span>
+      </div>
+
+      <p class="text-lg mb-1"><span class="font-semibold">Disease:</span> {{ diagnosisResult()?.diseaseName }}</p>
+      <p class="text-base mb-1">
+        <span class="font-semibold">Confidence:</span> {{ diagnosisResult()?.confidenceLevel?.toFixed(0) }}% ({{ diagnosisResult()?.confidenceFlag }})
+      </p>
+
+      <div *ngIf="diagnosisResult()?.description" class="mt-3">
+        <h3 class="text-sm font-semibold mb-1">Description</h3>
+        <p class="text-sm text-text-muted">{{ diagnosisResult()?.description }}</p>
+      </div>
+
+      <div *ngIf="diagnosisResult()?.treatmentRecommendations" class="mt-3">
+        <h3 class="text-sm font-semibold mb-1">Treatment</h3>
+        <p class="text-sm text-text-muted">{{ diagnosisResult()?.treatmentRecommendations }}</p>
+      </div>
+
+      <div *ngIf="diagnosisResult()?.pesticides" class="mt-3">
+        <h3 class="text-sm font-semibold mb-1">Pesticides</h3>
+        <p class="text-sm text-text-muted">{{ diagnosisResult()?.pesticides }}</p>
+      </div>
+
+      <div *ngIf="diagnosisResult()?.fertilizers" class="mt-3">
+        <h3 class="text-sm font-semibold mb-1">Fertilizers</h3>
+        <p class="text-sm text-text-muted">{{ diagnosisResult()?.fertilizers }}</p>
+      </div>
+
+      <div *ngIf="diagnosisResult()?.preventionTips" class="mt-3">
+        <h3 class="text-sm font-semibold mb-1">Prevention Tips</h3>
+        <p class="text-sm text-text-muted">{{ diagnosisResult()?.preventionTips }}</p>
+      </div>
+    </div>
+    <button (click)="diagnosisResult.set(null)" class="w-full bg-primary text-white py-3 rounded-xl text-base font-semibold">
+      Analyze another photo
+    </button>
+  </div>
+</main>
+
+<app-navbar [activeTab]="'crops'"></app-navbar>

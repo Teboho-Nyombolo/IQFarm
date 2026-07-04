@@ -6,6 +6,9 @@ import { RegisterComponent } from './features/auth/regiter/register.component';
 import { CropsComponent } from './features/crops/crops.component';
 import { AddCropComponent } from './features/crops/add-crop/add-crop.component';
 import { WeatherComponent } from './features/weather/weather.component';
+import { PlantAdvisoryComponent } from './features/plant-advisory/plant-advisory.component';
+import { CropDetailsComponent } from './features/crops/crop-details/crop-details.component';
+import { CropInspectComponent } from './features/crops/crop-inspect/crop-inspect.component';
 
 export const routes: Routes = [
     {
@@ -35,5 +38,17 @@ export const routes: Routes = [
     {
         path: 'crops/add',
         component: AddCropComponent
+    },
+    {
+        path: 'plant-advisory',
+        component: PlantAdvisoryComponent
+    },
+    {
+        path: 'crops/:id',
+        component: CropDetailsComponent
+    },
+    {
+        path: 'crops/:id/inspect',
+        component: CropInspectComponent
     }
 ];
