@@ -9,9 +9,9 @@ POST {{SERVER}}/api/auth/register
 Content-Type: application/json
 
 {
-  "name": "Teboho",
+  "name": "Tebza",
   "surname": "Nyombolo",
-  "email": "thulaninyombolo@gmail.com",
+  "email": "thulaninyombolo1@gmail.com",
   "password": "teboho@123"
 }
 

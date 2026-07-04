@@ -1,0 +1,200 @@
+### VARIABLES
+@HOST = http://localhost:
+@PORT = 8080
+@SERVER = {{HOST}}{{PORT}}
+
+### Create Crop - Success (Tomatoes)
+POST {{SERVER}}/api/crops/create
+Content-Type: application/json
+
+{
+  "farmId": 1,
+  "cropDate": "2026-07-03",
+  "cropType": "Vegetable",
+  "minerals": "Nitrogen, Phosphorus, Potassium",
+  "status": "PLANNING",
+  "cropCount": 500,
+  "waterFrequency": "Daily",
+  "cropName": "Tomatoes"
+}
+
+
+
+### Create Crop - Success (Corn)
+POST {{SERVER}}/api/crops/create
+Content-Type: application/json
+
+{
+  "farmId": 1,
+  "cropDate": "2026-07-01",
+  "cropType": "Grain",
+  "minerals": "Nitrogen",
+  "status": "ACTIVE",
+  "cropCount": 1000,
+  "waterFrequency": "Every 3 days",
+  "cropName": "Sweet Corn"
+}
+
+
+
+### Create Crop - Fail (Farm Not Found)
+POST {{SERVER}}/api/crops/create
+Content-Type: application/json
+
+{
+  "farmId": 9999,
+  "cropDate": "2026-07-03",
+  "cropType": "Vegetable",
+  "minerals": "Nitrogen",
+  "status": "PLANNING",
+  "cropCount": 100,
+  "waterFrequency": "Daily",
+  "cropName": "Test Crop"
+}
+
+
+
+### GET CROP BY ID
+
+### Get Crop by ID - Success
+GET {{SERVER}}/api/crops/1
+
+###
+
+### Get Crop by ID - Not Found
+GET {{SERVER}}/api/crops/9999
+
+
+
+### GET ALL CROPS
+
+### Get All Crops
+GET {{SERVER}}/api/crops
+
+
+
+
+### GET CROPS BY FARM ID
+
+
+### Get Crops by Farm ID - Success
+GET {{SERVER}}/api/crops/farm/1
+
+
+
+### Get Crops by Farm ID - Empty Result
+GET {{SERVER}}/api/crops/farm/9999
+
+###
+
+### UPDATE CROP
+
+### Update Crop - Success
+PUT {{SERVER}}/api/crops/1
+Content-Type: application/json
+
+{
+  "farmId": 1,
+  "cropDate": "2026-07-05",
+  "cropType": "Vegetable",
+  "minerals": "Nitrogen, Phosphorus, Potassium, Calcium",
+  "status": "ACTIVE",
+  "cropCount": 600,
+  "waterFrequency": "Twice daily",
+  "cropName": "Organic Tomatoes"
+}
+
+
+
+### Update Crop - Not Found
+PUT {{SERVER}}/api/crops/9999
+Content-Type: application/json
+
+{
+  "farmId": 1,
+  "cropDate": "2026-07-03",
+  "cropType": "Vegetable",
+  "minerals": "Nitrogen",
+  "status": "PLANNING",
+  "cropCount": 100,
+  "waterFrequency": "Daily",
+  "cropName": "Test Crop"
+}
+
+
+
+### Update Crop - Farm Not Found
+PUT {{SERVER}}/api/crops/1
+Content-Type: application/json
+
+{
+  "farmId": 9999,
+  "cropDate": "2026-07-03",
+  "cropType": "Vegetable",
+  "minerals": "Nitrogen",
+  "status": "PLANNING",
+  "cropCount": 100,
+  "waterFrequency": "Daily",
+  "cropName": "Test Crop"
+}
+
+
+
+### DELETE CROP
+
+### Delete Crop - Success
+DELETE {{SERVER}}/api/crops/2
+
+
+
+### Delete Crop - Not Found
+DELETE {{SERVER}}/api/crops/9999
+
+
+### ADDITIONAL TEST CASES
+
+
+### Create Crop - Minimal Data
+POST {{SERVER}}/api/crops/create
+Content-Type: application/json
+
+{
+  "farmId": 1,
+  "cropType": "Fruit",
+  "cropName": "Apples"
+}
+
+
+
+### Create Crop - Status HARVESTED
+POST {{SERVER}}/api/crops/create
+Content-Type: application/json
+
+{
+  "farmId": 1,
+  "cropDate": "2026-07-03",
+  "cropType": "Legume",
+  "minerals": "Phosphorus",
+  "status": "HARVESTED",
+  "cropCount": 200,
+  "waterFrequency": "Weekly",
+  "cropName": "Soybeans"
+}
+
+
+
+### Create Crop - Status FAILED
+POST {{SERVER}}/api/crops/create
+Content-Type: application/json
+
+{
+  "farmId": 1,
+  "cropDate": "2026-06-01",
+  "cropType": "Vegetable",
+  "minerals": "Nitrogen",
+  "status": "FAILED",
+  "cropCount": 0,
+  "waterFrequency": "N/A",
+  "cropName": "Failed Lettuce"
+}
+
