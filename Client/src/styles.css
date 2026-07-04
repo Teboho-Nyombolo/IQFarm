@@ -15,8 +15,8 @@
 
     /* Primary — vibrant agricultural green */
     --color-primary: #50C878;
-    --color-primary-dark: #3aab5f;
-    --color-primary-light: #7ddfA0;
+    --color-primary-dark: #329453;
+    --color-primary-light: #44f782;
     --color-primary-surface: #e8f9ee;
 
     /* Secondary — soft cream / off-white */
@@ -148,87 +148,6 @@
     --z-toast: 500;
 }
 
-/* ─── Base Reset & Typography ───────────────────────────────── */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    font-size: 16px;
-    -webkit-text-size-adjust: 100%;
-    scroll-behavior: smooth;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-body {
-    font-family: var(--font-sans);
-    font-size: var(--text-base);
-    font-weight: var(--font-regular);
-    line-height: var(--leading-normal);
-    color: var(--color-text);
-    background-color: var(--color-surface);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* ─── Heading Scale ──────────────────────────────────────────── */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: var(--font-display);
-    font-weight: var(--font-semibold);
-    line-height: var(--leading-tight);
-    color: var(--color-tertiary);
-}
-
-h1 {
-    font-size: var(--text-4xl);
-}
-
-h2 {
-    font-size: var(--text-3xl);
-}
-
-h3 {
-    font-size: var(--text-2xl);
-}
-
-h4 {
-    font-size: var(--text-xl);
-}
-
-h5 {
-    font-size: var(--text-lg);
-}
-
-h6 {
-    font-size: var(--text-base);
-}
-
-p {
-    line-height: var(--leading-relaxed);
-    color: var(--color-text-muted);
-}
-
 a {
     color: var(--color-primary-dark);
     text-decoration: none;
@@ -277,7 +196,7 @@ button {
 @theme {
     /* Colours — mapped so Tailwind utilities (bg-primary, text-tertiary…) work */
     --color-primary: #50C878;
-    --color-primary-dark: #3aab5f;
+    --color-primary-dark: #257c42;
     --color-primary-light: #7ddfA0;
     --color-primary-surface: #e8f9ee;
 
