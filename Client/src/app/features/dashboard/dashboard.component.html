@@ -1,1 +1,224 @@
-<p>dashboard works!</p>
+<!-- ════════════════════════════════════════════════════════════
+     Top App Bar
+     ════════════════════════════════════════════════════════════ -->
+<header
+  class="fixed top-0 w-full z-50 bg-[#f8f9ff] shadow-[0px_4px_12px_rgba(0,109,54,0.06)] flex items-center justify-between px-4 h-16">
+  <div class="flex items-center gap-2">
+    <span class="material-symbols-outlined text-[#006d36]" style="font-variation-settings:'FILL' 1">agriculture</span>
+    <span class="font-['Manrope'] text-2xl font-bold text-[#006d36]">IQFarm</span>
+  </div>
+
+  <div
+    class="w-10 h-10 rounded-full border-2 border-[#83fba5] bg-[#50c878] flex items-center justify-center overflow-hidden">
+    <span class="material-symbols-outlined text-white" style="font-variation-settings:'FILL' 1">person</span>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════
+     Main Content
+     ════════════════════════════════════════════════════════════ -->
+<main class="mt-20 px-4 max-w-7xl mx-auto mb-24">
+
+  <!-- ── Welcome Header ─────────────────────────────────────── -->
+  <section class="py-4">
+    <h1 class="font-['Manrope'] text-[30px] md:text-[40px] font-bold text-[#006d36] tracking-tight leading-tight">
+      {{ greeting }}, Farmer.
+    </h1>
+    <p class="font-['Hanken_Grotesk'] text-base text-[#3e4a3f]">
+      Here is your precision farm overview for {{ dateLabel }}.
+    </p>
+  </section>
+
+  <!-- ── Bento Grid ─────────────────────────────────────────── -->
+  <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+    <!-- ── Weather Card (full-width mobile / col-span-2 desktop) ─ -->
+    <div
+      class="bento-card col-span-1 md:col-span-2 bg-white p-4 rounded-xl shadow-[0px_4px_12px_rgba(0,109,54,0.04)] relative overflow-hidden">
+      <!-- Background glow icon -->
+      <div class="absolute top-0 right-0 p-4 opacity-10 glow-icon pointer-events-none">
+        <span class="material-symbols-outlined text-[80px] text-[#006d36]">cloudy</span>
+      </div>
+
+      <h3
+        class="font-['JetBrains_Mono'] text-[11px] text-[#6e7a6e] uppercase tracking-widest mb-4 flex items-center gap-2">
+        <span class="material-symbols-outlined text-[16px]">device_thermostat</span>
+        Weather Insights
+      </h3>
+
+      @if (isLoadingWeather()) {
+      <div class="space-y-3">
+        <div class="skeleton h-14 w-32 rounded-lg"></div>
+        <div class="skeleton h-4 w-24 rounded"></div>
+        <div class="skeleton h-8 w-48 rounded"></div>
+      </div>
+      } @else if (weather()) {
+      <div class="flex flex-wrap items-end gap-8">
+        <div class="flex flex-col">
+          <span class="font-['Manrope'] text-[48px] leading-tight text-[#006d36] font-bold">
+            {{ round(weather()!.highTemp) }}°C
+          </span>
+          <span class="font-['Hanken_Grotesk'] text-base text-[#3e4a3f]">
+            {{ weather()!.condition }}
+          </span>
+        </div>
+        <div class="flex gap-4 pb-1">
+          <div class="flex flex-col border-l border-[#bdcabc] pl-4">
+            <span class="font-['JetBrains_Mono'] text-[11px] text-[#6e7a6e]">Rain Chance</span>
+            <span class="font-['Manrope'] text-[20px] font-semibold text-[#0b1c30]">
+              {{ round(weather()!.precipitation) }} mm
+            </span>
+          </div>
+          <div class="flex flex-col border-l border-[#bdcabc] pl-4">
+            <span class="font-['JetBrains_Mono'] text-[11px] text-[#6e7a6e]">Humidity</span>
+            <span class="font-['Manrope'] text-[20px] font-semibold text-[#0b1c30]">
+              {{ weather()!.humidity }}%
+            </span>
+          </div>
+        </div>
+      </div>
+      } @else {
+      <div class="flex items-center gap-2 text-[#6e7a6e]">
+        <span class="material-symbols-outlined text-[20px]">cloud_off</span>
+        <span class="font-['Hanken_Grotesk'] text-sm">Weather data unavailable.</span>
+      </div>
+      }
+    </div>
+
+    <!-- ── Crop Health + Seasonal Prep: 2-col on mobile, 1-col each on desktop ── -->
+    <!-- Sub-grid wrapper: shows side-by-side on mobile, dissolves to parent grid on md+ -->
+    <div class="grid grid-cols-2 gap-4 md:contents">
+
+      <!-- ── Crop Health Card ──────────────────────────────────── -->
+      <div
+        class="bento-card bg-white p-4 rounded-xl shadow-[0px_4px_12px_rgba(0,109,54,0.04)] border-t-4 border-[#50c878]">
+        <h3
+          class="font-['JetBrains_Mono'] text-[10px] md:text-[11px] text-[#6e7a6e] uppercase tracking-widest mb-3 flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px] md:text-[16px]">potted_plant</span>
+          <span class="hidden sm:inline">Crop Health</span>
+          <span class="sm:hidden">Crops</span>
+        </h3>
+
+        @if (isLoadingCrops()) {
+        <div class="space-y-2">
+          <div class="skeleton h-5 w-full rounded"></div>
+          <div class="skeleton h-3 w-3/4 rounded"></div>
+          <div class="skeleton h-2 w-full rounded-full"></div>
+        </div>
+        } @else {
+        <div class="space-y-3">
+          <div class="flex items-center justify-between flex-wrap gap-1">
+            <span class="font-['Hanken_Grotesk'] text-sm md:text-base text-[#0b1c30]">Status</span>
+            <span class="px-2 py-0.5 text-[9px] md:text-[10px] font-bold rounded-full uppercase tracking-widest"
+              [ngClass]="{
+                  'bg-[#83fba5] text-[#005227]': overallCropStatus() === 'Optimal',
+                  'bg-[#ffdad6] text-[#93000a]': overallCropStatus() === 'At Risk',
+                  'bg-[#e5eeff] text-[#3e4a3f]': overallCropStatus() === 'Fair' || overallCropStatus() === 'No Data'
+                }">
+              {{ overallCropStatus() }}
+            </span>
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between font-['JetBrains_Mono'] text-[10px] text-[#6e7a6e]">
+              <span>Moisture</span>
+              <span>{{ soilMoisturePercent() }}%</span>
+            </div>
+            <div class="h-2 w-full bg-[#dce9ff] rounded-full overflow-hidden">
+              <div class="h-full bg-[#50c878] rounded-full transition-all duration-700"
+                [style.width.%]="soilMoisturePercent()"></div>
+            </div>
+          </div>
+
+          @if (activeCropsCount() > 0) {
+          <p class="font-['Hanken_Grotesk'] text-[12px] text-[#3e4a3f]">
+            {{ activeCropsCount() }} active crop{{ activeCropsCount() > 1 ? 's' : '' }}
+          </p>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- ── Seasonal Prep Card ────────────────────────────────── -->
+      <div
+        class="bento-card bg-[#006d36] text-white p-4 rounded-xl shadow-[0px_4px_12px_rgba(0,109,54,0.08)] relative overflow-hidden">
+        <!-- Decorative calendar icon -->
+        <div class="absolute -bottom-4 -right-4 opacity-10 pointer-events-none">
+          <span class="material-symbols-outlined text-[80px]">calendar_month</span>
+        </div>
+
+        <h3
+          class="font-['JetBrains_Mono'] text-[10px] md:text-[11px] text-[#83fba5] uppercase tracking-widest mb-3 flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px] md:text-[16px]">calendar_month</span>
+          <span class="hidden sm:inline">Seasonal Prep</span>
+          <span class="sm:hidden">Season</span>
+        </h3>
+        <div class="space-y-3 relative z-10">
+          <p class="font-['Manrope'] text-[14px] md:text-[20px] leading-tight font-semibold">
+            Winter Wheat Sowing window closes in 4 days.
+          </p>
+          <button id="dashboard-view-calendar-btn"
+            class="w-full py-2 bg-white text-[#006d36] rounded-lg font-['Manrope'] font-bold text-[12px] md:text-[14px] active:scale-95 transition-transform">
+            View Calendar
+          </button>
+        </div>
+      </div>
+
+    </div><!-- end sub-grid -->
+
+  </section>
+
+  <!-- ── Disease Monitoring ─────────────────────────────────── -->
+  <section class="mt-8 py-4">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="font-['Manrope'] text-[28px] font-semibold text-[#006d36]">Disease Monitoring</h2>
+      <button id="dashboard-disease-db-btn"
+        class="text-[#006d36] font-['JetBrains_Mono'] text-[11px] tracking-widest cursor-pointer hover:underline">
+        Full Database
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      @for (d of diseases; track d.disease) {
+      <div
+        class="disease-card bg-white rounded-xl overflow-hidden shadow-[0px_4px_12px_rgba(0,109,54,0.04)] flex flex-col border border-[#bdcabc]/30">
+        <!-- Image -->
+        <div class="h-32 w-full overflow-hidden relative">
+          <img [src]="d.imageSrc" [alt]="d.crop + ' ' + d.disease" class="disease-img w-full h-full object-cover">
+          <!-- Severity badge -->
+          <div class="absolute top-2 right-2 px-2 py-1 text-[10px] font-bold rounded shadow-sm" [ngClass]="{
+                'bg-[#ba1a1a] text-white':                          d.severity === 'HIGH ALERT',
+                'bg-[#97b8b8] text-[#2a4949]':                     d.severity === 'MODERATE',
+                'bg-[#cbdbf5] text-[#3e4a3f]':                     d.severity === 'IDLE'
+              }">
+            {{ d.severity }}
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="p-4 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="font-['JetBrains_Mono'] text-[11px] text-[#006d36] font-bold">{{ d.crop }}</span>
+            <span class="font-['Hanken_Grotesk'] text-[14px] text-[#6e7a6e]">{{ d.disease }}</span>
+          </div>
+          <p class="font-['Hanken_Grotesk'] text-[14px] text-[#3e4a3f]">{{ d.description }}</p>
+        </div>
+      </div>
+      }
+    </div>
+  </section>
+
+</main>
+
+<!-- ════════════════════════════════════════════════════════════
+     Bottom Navigation Bar
+     ════════════════════════════════════════════════════════════ -->
+<app-navbar [activeTab]="'home'"></app-navbar>
+
+<!-- ════════════════════════════════════════════════════════════
+     Floating Action Button
+     ════════════════════════════════════════════════════════════ -->
+<button id="dashboard-fab" aria-label="Add new item"
+  class="fixed bottom-24 right-6 w-14 h-14 bg-[#006d36] text-white rounded-full fab-shadow flex items-center justify-center active:scale-90 transition-transform z-40">
+  <span class="material-symbols-outlined">add</span>
+</button>

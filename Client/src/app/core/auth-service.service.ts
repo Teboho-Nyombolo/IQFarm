@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
 
 @Injectable({
@@ -16,7 +16,19 @@ export class AuthServiceService {
   }
 
   login(credentials: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/auth/login`, credentials);
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, credentials);
+  }
+
+    private userIdSource = new BehaviorSubject<number>(0);
+
+  userId$ = this.userIdSource.asObservable();
+
+  setUserId(id: number) {
+    this.userIdSource.next(id);
+  }
+
+  getUserId() {
+    return this.userIdSource.value;
   }
 
 }
