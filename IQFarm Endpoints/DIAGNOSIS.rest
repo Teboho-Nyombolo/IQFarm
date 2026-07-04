@@ -1,0 +1,118 @@
+### VARIABLES
+
+
+@HOST = http://localhost:
+@PORT = 8080
+@SERVER = {{HOST}}{{PORT}}
+
+### STEP 1: UPLOAD AN IMAGE (use imageId from response)
+
+POST {{SERVER}}/api/images/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="diseased-plant.jpg"
+Content-Type: image/jpeg
+
+< /Users/tebohonyombolo/Downloads/Yellow-leaf-spot-late-infection-on-mature-plants-.webp
+------WebKitFormBoundary
+Content-Disposition: form-data; name="description"
+
+Plant with suspected disease for diagnosis
+------WebKitFormBoundary
+Content-Disposition: form-data; name="userId"
+
+1
+------WebKitFormBoundary--
+
+
+### STEP 2: RUN DIAGNOSIS (update imageId from upload response)
+
+
+### Full Context Diagnosis
+POST {{SERVER}}/api/diagnoses/analyze
+Content-Type: application/json
+
+{
+  "imageId": 16,
+  "trackerId": 1,
+  "cropId": 1,
+  "cropName": "Plant",
+  "plantAge": "2 weeks old, vegetative stage",
+  "symptoms": "Yellow spots on lower leaves, some leaf curling, stunted growth",
+  "weatherConditions": "Hot and humid, recent heavy rains",
+  "locationRegion": "Johannesburg, South Africa"
+}
+
+###
+
+### Minimal Diagnosis (image + crop name only)
+POST {{SERVER}}/api/diagnoses/analyze
+Content-Type: application/json
+
+{
+  "imageId": 1,
+  "cropName": "Tomato"
+}
+
+###
+
+### Image Only Diagnosis (no context)
+POST {{SERVER}}/api/diagnoses/analyze
+Content-Type: application/json
+
+{
+  "imageId": 1
+}
+
+###
+
+### Diagnosis for CropTracker (pest observation)
+POST {{SERVER}}/api/diagnoses/analyze
+Content-Type: application/json
+
+{
+  "imageId": 1,
+  "trackerId": 1,
+  "cropName": "Maize",
+  "plantAge": "6 weeks old, flowering stage",
+  "symptoms": "Brown lesions on leaves, powdery mildew on stems",
+  "weatherConditions": "Warm, dry spell followed by rain",
+  "locationRegion": "Johannesburg, South Africa"
+}
+
+### ============================================
+### STEP 3: GET DIAGNOSIS RESULTS
+### ============================================
+
+### Get Diagnosis by ID
+GET {{SERVER}}/api/diagnoses/1
+
+###
+
+### Get Diagnosis by Image ID
+GET {{SERVER}}/api/diagnoses/image/1
+
+###
+
+### Get Diagnoses by CropTracker
+GET {{SERVER}}/api/diagnoses/tracker/1
+
+###
+
+### Get Diagnoses by Crop
+GET {{SERVER}}/api/diagnoses/crop/1
+
+###
+
+### Get All Diagnoses
+GET {{SERVER}}/api/diagnoses
+
+### ============================================
+### DELETE DIAGNOSIS
+### ============================================
+
+### Delete Diagnosis
+DELETE {{SERVER}}/api/diagnoses/1
+
+###
