@@ -1,0 +1,188 @@
+### VARIABLES
+
+@HOST = http://localhost:
+@PORT = 8080
+@SERVER = {{HOST}}{{PORT}}
+
+
+### UPLOAD IMAGE
+
+
+### Upload Image - Linked to Crop Only
+POST {{SERVER}}/api/images/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="tomato-pest.jpg"
+Content-Type: image/jpeg
+
+< /Users/tebohonyombolo/Downloads/tomato.webp
+------WebKitFormBoundary
+Content-Disposition: form-data; name="description"
+
+Pest damage on tomato leaves
+------WebKitFormBoundary
+Content-Disposition: form-data; name="cropId"
+
+1
+------WebKitFormBoundary
+Content-Disposition: form-data; name="userId"
+
+1
+------WebKitFormBoundary--
+
+
+### Upload Image - Linked to CropTracker Only
+POST {{SERVER}}/api/images/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="soil-condition.jpg"
+Content-Type: image/jpeg
+
+< /Users/tebohonyombolo/Downloads/screenshot_20260318154500.png
+------WebKitFormBoundary
+Content-Disposition: form-data; name="description"
+
+Soil moisture check before irrigation
+------WebKitFormBoundary
+Content-Disposition: form-data; name="trackerId"
+
+1
+------WebKitFormBoundary
+Content-Disposition: form-data; name="userId"
+
+1
+------WebKitFormBoundary--
+
+
+### Upload Image - Linked to Both Crop and CropTracker
+POST {{SERVER}}/api/images/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="growth-progress.jpg"
+Content-Type: image/jpeg
+
+< /Users/tebohonyombolo/Downloads/screenshot_20260318154500.png
+------WebKitFormBoundary
+Content-Disposition: form-data; name="description"
+
+Week 4 growth progress photo
+------WebKitFormBoundary
+Content-Disposition: form-data; name="cropId"
+
+1
+------WebKitFormBoundary
+Content-Disposition: form-data; name="trackerId"
+
+1
+------WebKitFormBoundary
+Content-Disposition: form-data; name="userId"
+
+1
+------WebKitFormBoundary--
+
+###
+
+### Upload Image - Minimal (File + UserId Only)
+POST {{SERVER}}/api/images/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="farm-overview.jpg"
+Content-Type: image/jpeg
+
+< /Users/tebohonyombolo/Downloads/screenshot_20260318154500.png
+------WebKitFormBoundary
+Content-Disposition: form-data; name="userId"
+
+1
+------WebKitFormBoundary--
+
+###
+
+### Upload Image - PNG Format
+POST {{SERVER}}/api/images/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="pest-closeup.png"
+Content-Type: image/png
+
+< /Users/tebohonyombolo/Downloads/screenshot_20260318154500.png
+------WebKitFormBoundary
+Content-Disposition: form-data; name="description"
+
+Close-up of aphid infestation
+------WebKitFormBoundary
+Content-Disposition: form-data; name="trackerId"
+
+2
+------WebKitFormBoundary
+Content-Disposition: form-data; name="userId"
+
+1
+------WebKitFormBoundary--
+
+### GET IMAGES
+
+### Get Image by ID
+GET {{SERVER}}/api/images/1
+
+###
+
+### Get All Images
+GET {{SERVER}}/api/images
+
+###
+
+### Get Images by Crop
+GET {{SERVER}}/api/images/crop/1
+
+###
+
+### Get Images by Tracker
+GET {{SERVER}}/api/images/tracker/1
+
+###
+
+### Get Images by User
+GET {{SERVER}}/api/images/user/1
+
+###
+
+### Get Image by ID - Not Found
+GET {{SERVER}}/api/images/9999
+
+###
+
+### Get Images by Crop - Empty Result
+GET {{SERVER}}/api/images/crop/9999
+
+###
+
+### SERVE IMAGE FILE
+
+### Get Image File via Direct URL (from response data.fileUrl)
+GET {{SERVER}}/uploads/images/a1b2c3d4-e5f6-7890.jpg
+
+###
+
+### Get Image File via API Endpoint
+GET {{SERVER}}/api/images/file/a1b2c3d4-e5f6-7890.jpg
+
+###
+
+### DELETE IMAGE
+
+
+### Delete Image - Success
+DELETE {{SERVER}}/api/images/1
+
+###
+
+### Delete Image - Not Found
+DELETE {{SERVER}}/api/images/9999
+
+###
