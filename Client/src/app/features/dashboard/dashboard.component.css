@@ -1,0 +1,54 @@
+/* ── Card hover lift ─────────────────────────────────────────── */
+.bento-card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.bento-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 109, 54, 0.10);
+}
+
+/* ── Disease card image zoom on hover ────────────────────────── */
+.disease-img {
+  transition: transform 0.5s ease;
+}
+.disease-card:hover .disease-img {
+  transform: scale(1.05);
+}
+
+/* ── Custom scrollbar ────────────────────────────────────────── */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #eff4ff; }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #50c878;
+  border-radius: 10px;
+}
+
+/* ── FAB shadow ──────────────────────────────────────────────── */
+.fab-shadow {
+  box-shadow: 0 6px 20px rgba(0, 109, 54, 0.35);
+}
+
+/* ── Nav button ──────────────────────────────────────────────── */
+.nav-btn {
+  transition: color 150ms ease, transform 150ms ease;
+}
+.nav-btn:active {
+  transform: scale(0.9);
+}
+
+/* ── Background glow icon ────────────────────────────────────── */
+.glow-icon {
+  transition: opacity 0.3s ease;
+}
+
+/* ── Skeleton pulse ──────────────────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.skeleton {
+  background: #e5eeff;
+  border-radius: 0.5rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}

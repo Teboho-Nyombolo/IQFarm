@@ -1,5 +1,6 @@
 import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser, NgClass } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { WeatherService } from './services/weather.service';
 import { DailyWeather } from './models/weather.model';
 
@@ -29,7 +30,7 @@ function dateToDayLabel(dateStr: string): string {
 @Component({
   selector: 'app-weather',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, RouterLink],
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.css',
 })
