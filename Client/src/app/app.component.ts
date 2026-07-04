@@ -12,8 +12,9 @@ export class AppComponent implements OnInit {
   
   isMobile = true;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.checkScreenSize();
+
   }
 
   @HostListener('window:resize')
