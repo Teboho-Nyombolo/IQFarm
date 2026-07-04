@@ -6,7 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { WeatherResponse } from '../models/weather.model';
 
 /**
- * Wraps GET /api/dashboard/{farmId} to fetch weather data.
+ * Wraps GET /api/dashboard/weather/{farmId} to fetch weather data.
  *
  * The Spring Boot controller returns:
  *   { "success": true, "data": { "dailyWeather": [...] } }
@@ -23,7 +23,7 @@ export class WeatherService {
   getWeather(farmId: number): Observable<WeatherResponse> {
     return this.#http
       .get<ApiResponse<WeatherResponse>>(
-        `${environment.apiBaseUrl}/api/dashboard/${farmId}`
+        `${environment.apiBaseUrl}/api/dashboard/weather/${farmId}`
       )
       .pipe(map((res) => res.data));
   }

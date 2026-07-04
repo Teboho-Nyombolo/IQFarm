@@ -330,44 +330,4 @@
 <!-- ════════════════════════════════════════════════════════════
      Bottom Navigation Bar
      ════════════════════════════════════════════════════════════ -->
-<nav
-  class="fixed bottom-0 left-0 w-full z-50 bg-[#f8f9ff]/90 backdrop-blur-md border-t border-[#bdcabc]/30 shadow-lg flex justify-around items-center py-2 px-4 h-16"
-  aria-label="Main navigation"
->
-  <a
-    id="nav-home"
-    routerLink="/home"
-    class="flex flex-col items-center justify-center text-[#3e4a3f] px-4 py-1 hover:text-[#006d36] transition-all nav-btn"
-  >
-    <span class="material-symbols-outlined">home</span>
-    <span class="font-['JetBrains_Mono'] text-[10px] mt-1 font-bold">Home</span>
-  </a>
-
-  <button
-    id="nav-crops"
-    class="flex flex-col items-center justify-center text-[#3e4a3f] px-4 py-1 hover:text-[#006d36] transition-all nav-btn"
-  >
-    <span class="material-symbols-outlined">grass</span>
-    <span class="font-['JetBrains_Mono'] text-[10px] mt-1 font-bold">Crops</span>
-  </button>
-
-  <!-- Active: Weather -->
-  <div class="flex flex-col items-center justify-center">
-    <button
-      id="nav-weather"
-      class="bg-[#50c878] text-[#005025] rounded-full px-6 py-1 transition-all nav-btn flex flex-col items-center"
-      aria-current="page"
-    >
-      <span class="material-symbols-outlined icon-filled">cloudy</span>
-      <span class="font-['JetBrains_Mono'] text-[10px] mt-1 font-bold">Weather</span>
-    </button>
-  </div>
-
-  <button
-    id="nav-alerts"
-    class="flex flex-col items-center justify-center text-[#3e4a3f] px-4 py-1 hover:text-[#006d36] transition-all nav-btn"
-  >
-    <span class="material-symbols-outlined">notifications</span>
-    <span class="font-['JetBrains_Mono'] text-[10px] mt-1 font-bold">Alerts</span>
-  </button>
-</nav>
+<app-navbar [activeTab]="'weather'"></app-navbar>

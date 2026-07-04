@@ -6,14 +6,13 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { isPlatformBrowser, NgClass } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { WeatherService } from '../weather/services/weather.service';
 import { CropService } from './services/crop.service';
 import { DailyWeather } from '../weather/models/weather.model';
 import { CropSummary, DiseaseReference } from './models/dashboard.model';
-import { NgClass } from '@angular/common';
+import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 
 /** Maps a crop status to a soil-moisture proxy percentage (0–100). */
 function statusToMoisturePercent(status: CropSummary['status']): number {
@@ -46,7 +45,7 @@ function todayLabel(): string {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgClass, RouterLink],
+  imports: [NgClass, NavbarComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
