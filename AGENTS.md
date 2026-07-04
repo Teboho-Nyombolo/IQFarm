@@ -53,7 +53,7 @@ For every feature:
 
 1. Read this file first.
 2. Understand the full request before touching code.
-3. Identify exactly which files need to change — both `/Client` and `/Server`.
+3. Identify exactly which files need to change — check the branch prefix to determine which layer(s) are in scope (see **Git Workflow → Branch Prefix Rules**).
 4. Keep the implementation simple and focused.
 5. Prefer readable code over clever code.
 6. Build the smallest useful version first.
@@ -467,23 +467,41 @@ The project uses a **two-branch strategy**:
 | Branch | Purpose |
 |---|---|
 | `main` | Stable, production-ready code |
-| `Dev` | Active development and feature work |
+| `develop` | Active development and feature work |
+
+### Branch Prefix Rules
+
+Every feature branch **must** be prefixed with either `FE/` or `BE/` to declare its scope.
+This prefix is a hard constraint — it determines which layer(s) an agent may modify.
+
+| Prefix | Scope | Rule |
+|---|---|---|
+| `FE/` | Frontend only | **Only** `/Client` files may be edited. `/Server` is **read-only** — use it as a reference to understand existing API contracts, but do not change any server-side file. |
+| `BE/` | Backend only | **Only** `/Server` files may be edited. `/Client` is **read-only** — use it as a reference to understand how the frontend consumes the API, but do not change any client-side file. |
+
+> **Why?** This prevents accidental cross-layer changes, makes PRs easier to review,
+> and reinforces the Client/Server architectural boundary for learners.
 
 **Feature workflow:**
 
 ```bash
-# Always branch off Dev
-git checkout Dev
-git checkout -b feature/your-feature-name
+# Always branch off develop
+git checkout develop
+
+# Frontend feature
+git checkout -b FE/your-feature-name
+
+# Backend feature
+git checkout -b BE/your-feature-name
 
 # Keep up to date
-git pull origin Dev
+git pull origin develop
 
 # Commit with Conventional Commits
 git commit -m "feat(weather): add hyperlocal forecast component"
 git commit -m "fix(market): correct price trend chart axis labels"
 
-# Open a PR into Dev — never directly into main
+# Open a PR into develop — never directly into main
 ```
 
 **Commit message format:** `<type>(<scope>): <description>`
@@ -615,9 +633,12 @@ When asked to build a feature, follow this checklist:
 
 1. **Read this file** before writing code.
 2. **Understand the request fully** before touching files.
-3. **Identify the minimal set of files** that need to change (Client + Server).
-4. **Backend first**: Entity → Repository → Service → Controller → DTO.
-5. **Frontend second**: Service → Component → Template → Styles.
+3. **Check the branch prefix** to determine which layer is in scope:
+   - `FE/*` branch → edit only `/Client`; treat `/Server` as read-only reference.
+   - `BE/*` branch → edit only `/Server`; treat `/Client` as read-only reference.
+   - No prefix → full-stack change; identify the minimal set of files across both layers.
+4. **Backend first** (when in scope): Entity → Repository → Service → Controller → DTO.
+5. **Frontend second** (when in scope): Service → Component → Template → Styles.
 6. **Validate** all user input with `@Valid` (server) and Angular Reactive Forms (client).
 7. **Handle errors** gracefully — both HTTP errors and empty states.
 8. **Respect African context constraints** (offline, mobile, i18n, data size).
