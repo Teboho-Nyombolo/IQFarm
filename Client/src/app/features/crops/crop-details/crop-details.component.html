@@ -34,7 +34,7 @@
           <span [class]="d.hasDisease ? 'text-red-500' : 'text-green-600'" class="font-bold">
             {{ d.hasDisease ? 'Disease detected' : 'Healthy' }}
           </span>
-          <span class="text-sm text-text-muted">{{ new Date(d.createdAt).toLocaleDateString() }}</span>
+          <span class="text-sm text-text-muted">{{ formatDate(d.createdAt) }}</span>
         </div>
         <p class="text-sm mb-2"><span class="font-semibold">Disease:</span> {{ d.diseaseName }}</p>
         <p class="text-sm mb-1"><span class="font-semibold">Confidence:</span> {{ d.confidenceLevel.toFixed(0) }}% ({{ d.confidenceFlag }})</p>
@@ -56,4 +56,4 @@
   </div>
 </main>
 
-<app-navbar [activeTab]="'crops'"></app-navbar>
+<app-navbar></app-navbar>

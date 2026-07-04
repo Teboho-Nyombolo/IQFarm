@@ -1,5 +1,5 @@
-import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
-import { isPlatformBrowser, CommonModule } from '@angular/common';
+import { Component, inject, OnInit, PLATFORM_ID, signal, ElementRef, ViewChild } from '@angular/core';
+import { isPlatformBrowser, CommonModule, DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,9 +11,8 @@ import { FarmService } from '../../../core/services/farm.service';
 @Component({
   selector: 'app-crop-inspect',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FormsModule, ReactiveFormsModule],
-  templateUrl: './crop-inspect.component.html',
-  styleUrls: ['./crop-inspect.component.css']
+  imports: [CommonModule, NavbarComponent, FormsModule, ReactiveFormsModule, DatePipe],
+  templateUrl: './crop-inspect.component.html'
 })
 export class CropInspectComponent implements OnInit {
   readonly #router = inject(Router);
@@ -24,6 +23,8 @@ export class CropInspectComponent implements OnInit {
   readonly #authService = inject(AuthService);
   readonly #farmService = inject(FarmService);
   readonly #platformId = inject(PLATFORM_ID);
+
+  @ViewChild('photoUpload') photoUpload!: ElementRef<HTMLInputElement>;
 
   cropId = signal<number | null>(null);
   imageFile = signal<File | null>(null);
@@ -69,6 +70,10 @@ export class CropInspectComponent implements OnInit {
     }
   }
 
+  triggerFileUpload(): void {
+    this.photoUpload.nativeElement.click();
+  }
+
   goBack(): void {
     if (this.cropId()) {
       this.#router.navigate(['/crops', this.cropId()]);
@@ -89,7 +94,7 @@ export class CropInspectComponent implements OnInit {
         next: (uploadResult) => {
           const request: DiagnosisRequest = {
             imageId: uploadResult.imageId,
-            cropId: this.cropId(),
+            cropId: this.cropId() ?? undefined,
             cropName: this.form.value.cropName ?? '',
             plantAge: this.form.value.plantAge ?? '',
             symptoms: this.form.value.symptoms ?? '',

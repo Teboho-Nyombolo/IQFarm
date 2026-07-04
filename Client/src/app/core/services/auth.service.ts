@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -7,16 +7,15 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly apiBaseUrl = environment.apiBaseUrl;
-
-  constructor(private http: HttpClient) {}
+  readonly #http = inject(HttpClient);
+  readonly #apiBaseUrl = environment.apiBaseUrl;
 
   register(user: any): Observable<any> {
-    return this.http.post<any>(`${this.apiBaseUrl}/api/users`, user);
+    return this.#http.post<any>(`${this.#apiBaseUrl}/api/users`, user);
   }
 
   login(credentials: any): Observable<any> {
-    return this.http.post<any>(`${this.apiBaseUrl}/api/auth/login`, credentials);
+    return this.#http.post<any>(`${this.#apiBaseUrl}/api/auth/login`, credentials);
   }
 
   private userIdSource = new BehaviorSubject<number>(0);

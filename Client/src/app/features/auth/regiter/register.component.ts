@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
   styleUrl: './regiter.component.css'
 })
 export class RegisterComponent {
+  readonly #authService = inject(AuthService);
+  readonly #router = inject(Router);
 
   user = {
     name: '',
@@ -23,10 +25,6 @@ export class RegisterComponent {
   errors: { [key: string]: string } = {};
   isSubmitting = false;
 
-
-
-  constructor( private authService: AuthService, private router: Router ) {}
-
   register() {
     if (!this.validateForm()) {
       return;
@@ -34,10 +32,10 @@ export class RegisterComponent {
 
     this.isSubmitting = true;
 
-    this.authService.register(this.user).subscribe({
+    this.#authService.register(this.user).subscribe({
       next: (response: any) => {
         if (response.success && response.data) {
-          this.authService.setUserId(response.data.userId);
+          this.#authService.setUserId(response.data.userId);
           this.isSubmitting = false;
           alert('Registration successful!');
           this.goToFarm();
@@ -51,7 +49,7 @@ export class RegisterComponent {
     });
   }
   goToFarm(){
-    this.router.navigate(['/farmInfo']);
+    this.#router.navigate(['/farmInfo']);
   }
 
   validateForm(): boolean {

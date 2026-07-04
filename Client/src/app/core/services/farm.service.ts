@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -27,19 +27,18 @@ interface ApiResponse<T> {
   providedIn: 'root'
 })
 export class FarmService {
-  private readonly apiBaseUrl = environment.apiBaseUrl;
-
-  constructor(private http: HttpClient) { }
+  readonly #http = inject(HttpClient);
+  readonly #apiBaseUrl = environment.apiBaseUrl;
 
   createFarm(farm: FarmRequest): Observable<FarmResponse> {
-    return this.http
-      .post<ApiResponse<FarmResponse>>(`${this.apiBaseUrl}/api/farm`, farm)
+    return this.#http
+      .post<ApiResponse<FarmResponse>>(`${this.#apiBaseUrl}/api/farm`, farm)
       .pipe(map((res) => res.data));
   }
 
   getFarmByOwnerId(ownerId: number): Observable<FarmResponse | null> {
-    return this.http
-      .get<ApiResponse<FarmResponse>>(`${this.apiBaseUrl}/api/farm/owner/${ownerId}`)
+    return this.#http
+      .get<ApiResponse<FarmResponse>>(`${this.#apiBaseUrl}/api/farm/owner/${ownerId}`)
       .pipe(map((res) => res.data ?? null));
   }
 }

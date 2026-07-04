@@ -14,7 +14,7 @@
 <main class="max-w-md mx-auto w-full px-4 py-6 pb-28">
   <div *ngIf="!diagnosisResult()">
     <div class="mb-6">
-      <div class="flex items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-4 cursor-pointer" (click)="document.getElementById('photoUpload')?.click()">
+      <div class="flex items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-4 cursor-pointer" (click)="triggerFileUpload()">
         <div *ngIf="!previewUrl()" class="flex flex-col items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
             <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zm-8.5-6l2.5 3 3.5-4.5 4.5 6H5l5.5-8z"/>
@@ -23,7 +23,7 @@
         </div>
         <img *ngIf="previewUrl()" [src]="previewUrl()" alt="Preview" class="w-full h-60 object-cover rounded-lg">
       </div>
-      <input id="photoUpload" type="file" accept="image/*" (change)="onFileSelected($event)" class="hidden">
+      <input #photoUpload type="file" accept="image/*" (change)="onFileSelected($event)" class="hidden">
     </div>
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
@@ -123,4 +123,4 @@
   </div>
 </main>
 
-<app-navbar [activeTab]="'crops'"></app-navbar>
+<app-navbar></app-navbar>

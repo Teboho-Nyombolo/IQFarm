@@ -3,8 +3,8 @@ import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { CropService, CropSummary } from '../../core/services/crop.service';
-import { AuthServiceService } from '../../core/auth-service.service';
-import { FarmServiceService } from '../../core/farm-service.service';
+import { AuthService } from '../../core/services/auth.service';
+import { FarmService } from '../../core/services/farm.service';
 
 @Component({
   selector: 'app-crops',
@@ -17,8 +17,8 @@ export class CropsComponent implements OnInit {
   readonly #platformId = inject(PLATFORM_ID);
   readonly #router = inject(Router);
   readonly #cropService = inject(CropService);
-  readonly #authService = inject(AuthServiceService);
-  readonly #farmService = inject(FarmServiceService);
+  readonly #authService = inject(AuthService);
+  readonly #farmService = inject(FarmService);
 
   crops = signal<CropSummary[]>([]);
   isLoading = signal(true);

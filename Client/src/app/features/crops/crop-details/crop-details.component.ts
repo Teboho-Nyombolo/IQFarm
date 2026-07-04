@@ -10,8 +10,7 @@ import { CropTrackerService, CropTrackerResponse } from '../../../core/services/
   selector: 'app-crop-details',
   standalone: true,
   imports: [CommonModule, NavbarComponent],
-  templateUrl: './crop-details.component.html',
-  styleUrls: ['./crop-details.component.css']
+  templateUrl: './crop-details.component.html'
 })
 export class CropDetailsComponent implements OnInit {
   readonly #route = inject(ActivatedRoute);
@@ -62,5 +61,9 @@ export class CropDetailsComponent implements OnInit {
     if (this.cropId()) {
       this.#router.navigate(['/crops', this.cropId(), 'inspect']);
     }
+  }
+
+  formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString();
   }
 }
