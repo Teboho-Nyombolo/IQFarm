@@ -1,12 +1,14 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService, UserResponse } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { LogoComponent } from '../../../shared/components/logo/logo.component';
 
 @Component({
   selector: 'app-regiter',
   standalone: true,
-  imports: [ FormsModule ],
+  imports: [ CommonModule, FormsModule, LogoComponent ],
   templateUrl: './register.component.html',
   styleUrl: './regiter.component.css'
 })
@@ -33,13 +35,11 @@ export class RegisterComponent {
     this.isSubmitting = true;
 
     this.#authService.register(this.user).subscribe({
-      next: (response: any) => {
-        if (response.success && response.data) {
-          this.#authService.setUserId(response.data.userId);
-          this.isSubmitting = false;
-          alert('Registration successful!');
-          this.goToFarm();
-        }
+      next: (response: UserResponse) => {
+        this.#authService.setUserId(response.userId);
+        this.isSubmitting = false;
+        alert('Registration successful!');
+        this.goToFarm();
       },
       error: (error: any) => {
         this.isSubmitting = false;

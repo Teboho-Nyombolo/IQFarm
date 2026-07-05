@@ -2,6 +2,7 @@ import { Component, inject, OnInit, PLATFORM_ID, signal, ElementRef, ViewChild }
 import { isPlatformBrowser, CommonModule, DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { LogoComponent } from '../../../shared/components/logo/logo.component';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImageService } from '../../../core/services/image.service';
 import { DiagnosisService, DiagnosisRequest, DiagnosisResponse } from '../../../core/services/diagnosis.service';

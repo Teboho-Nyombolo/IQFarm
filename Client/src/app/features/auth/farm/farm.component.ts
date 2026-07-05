@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { FarmService, FarmRequest } from '../../../core/services/farm.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { LogoComponent } from '../../../shared/components/logo/logo.component';
 
 @Component({
   selector: 'app-farm',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, LogoComponent],
   templateUrl: './farm.component.html',
   styleUrl: './farm.component.css'
 })

@@ -83,6 +83,12 @@ export class CropService {
       );
   }
 
+  getCropById(cropId: number): Observable<CropResponse> {
+    return this.#http
+      .get<ApiResponse<CropResponse>>(`${this.#apiBaseUrl}/api/crops/${cropId}`)
+      .pipe(map((res) => res.data));
+  }
+
   createCrop(request: CropRequest): Observable<CropResponse> {
     return this.#http
       .post<ApiResponse<CropResponse>>(`${this.#apiBaseUrl}/api/crops/create`, request)

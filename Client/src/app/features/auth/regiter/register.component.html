@@ -1,15 +1,19 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
+<div class="min-h-screen flex items-center justify-center bg-[var(--color-surface)]">
 
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <div class="w-full max-w-md bg-[var(--color-surface-card)] rounded-2xl shadow-lg p-8">
 
-        <h1 class="text-3xl font-bold text-center text-[#1B4332]">
+        <div class="flex justify-center mb-6">
+            <app-logo [size]="56" [textSize]="20"></app-logo>
+        </div>
+
+        <h1 class="text-3xl font-bold text-center text-[var(--color-tertiary)]">
             Register
         </h1>
 
         <form (ngSubmit)="register()" class="mt-8 space-y-5">
 
             <div>
-                <label class="block text-sm font-medium mb-2">
+                <label class="block text-sm font-medium mb-2 text-[var(--color-text)]">
                     Name
                 </label>
 
@@ -17,11 +21,13 @@
                     type="text"
                     [(ngModel)]="user.name"
                     name="name"
-                    class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1B4332]">
+                    class="w-full rounded-lg border border-[var(--color-border)] px-4 py-3 bg-white text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    [ngClass]="{'border-red-500': errors['name']}">
+                <p *ngIf="errors['name']" class="text-sm text-red-500 mt-1">{{ errors['name'] }}</p>
             </div>
 
-                        <div>
-                <label class="block text-sm font-medium mb-2">
+            <div>
+                <label class="block text-sm font-medium mb-2 text-[var(--color-text)]">
                     Surname
                 </label>
 
@@ -29,11 +35,13 @@
                     type="text"
                     [(ngModel)]="user.surname"
                     name="surname"
-                    class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1B4332]">
+                    class="w-full rounded-lg border border-[var(--color-border)] px-4 py-3 bg-white text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    [ngClass]="{'border-red-500': errors['surname']}">
+                <p *ngIf="errors['surname']" class="text-sm text-red-500 mt-1">{{ errors['surname'] }}</p>
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-2">
+                <label class="block text-sm font-medium mb-2 text-[var(--color-text)]">
                     Email
                 </label>
 
@@ -41,13 +49,13 @@
                     type="email"
                     [(ngModel)]="user.email"
                     name="email"
-                    class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1B4332]">
+                    class="w-full rounded-lg border border-[var(--color-border)] px-4 py-3 bg-white text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    [ngClass]="{'border-red-500': errors['email']}">
+                <p *ngIf="errors['email']" class="text-sm text-red-500 mt-1">{{ errors['email'] }}</p>
             </div>
 
-
-
             <div>
-                <label class="block text-sm font-medium mb-2">
+                <label class="block text-sm font-medium mb-2 text-[var(--color-text)]">
                     Password
                 </label>
 
@@ -55,13 +63,16 @@
                     type="password"
                     [(ngModel)]="user.password"
                     name="password"
-                    class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1B4332]">
+                    class="w-full rounded-lg border border-[var(--color-border)] px-4 py-3 bg-white text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                    [ngClass]="{'border-red-500': errors['password']}">
+                <p *ngIf="errors['password']" class="text-sm text-red-500 mt-1">{{ errors['password'] }}</p>
             </div>
 
             <button
-                (click)="register(); goToFarm()"
-                class="w-full bg-[#1B4332] text-white py-3 rounded-lg hover:bg-[#153526] transition">
-                Register
+                type="submit"
+                [disabled]="isSubmitting"
+                class="w-full bg-[var(--color-primary)] text-white py-3 rounded-lg hover:bg-[var(--color-primary-dark)] transition disabled:opacity-50">
+                {{ isSubmitting ? 'Registering...' : 'Register' }}
             </button>
 
         </form>

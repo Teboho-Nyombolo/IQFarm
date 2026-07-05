@@ -1,49 +1,68 @@
-<header class="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm">
+<header class="sticky top-0 z-40 bg-[var(--color-surface)] border-b border-[var(--color-border)] shadow-sm">
   <div class="flex items-center justify-between px-4 h-16 max-w-md mx-auto">
-    <div class="flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-primary" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M17 8C8 10 5.9 16.17 3.82 21.7L5.71 22c1-2.5 2-4.94 5.29-6.29C11 19 12 21 12 21s3-4 1-9c2 1 3.5 3 4 6 1-1.5 2-4.5 0-10z"/>
-      </svg>
-      <span class="text-lg font-bold text-text tracking-tight">IQFarm</span>
-    </div>
+    <app-logo [size]="32" [textSize]="16"></app-logo>
   </div>
 </header>
 
 <main class="max-w-md mx-auto w-full px-4 py-6 pb-28">
   <div *ngIf="!advisory()">
     <div class="mb-6">
-      <h1 class="text-[26px] font-bold text-text leading-tight">Seasonal Insights</h1>
-      <p class="text-sm text-text-muted mt-0.5">Get recommendations for your plants</p>
+      <div class="w-full h-32 rounded-xl overflow-hidden mb-4">
+        <img
+          src="https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=agricultural%20field%20with%20various%20crops%20in%20sunlight%2C%20green%20and%20vibrant&image_size=square_hd"
+          alt="Agricultural Field"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <h1 class="text-[26px] font-bold text-[var(--color-tertiary)] leading-tight">Seasonal Insights</h1>
+      <p class="text-sm text-[var(--color-text-muted)] mt-0.5">Get recommendations for your plants</p>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
-      <div class="flex flex-col gap-1">
-        <label for="plantName" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">What to grow?</label>
-        <input id="plantName" type="text" formControlName="plantName" placeholder="e.g., Tomatoes" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors" [class.border-danger]="form.get('plantName')?.invalid && form.get('plantName')?.touched">
-        <div *ngIf="form.get('plantName')?.invalid && form.get('plantName')?.touched" class="text-xs text-danger">Plant name is required</div>
+      <div class="flex flex-col gap-2">
+        <label for="plantName" class="text-[10px] font-semibold text-[var(--color-text-muted)] uppercase tracking-widest">What to grow?</label>
+
+        <!-- Quick Suggestions -->
+        <div class="flex flex-wrap gap-2 mb-2">
+          <button type="button" (click)="selectPlant('Tomatoes')" class="px-3 py-1 text-xs bg-[var(--color-primary-surface)] text-[var(--color-primary)] rounded-full border border-[var(--color-primary)] border-opacity-30 hover:bg-[var(--color-primary)] hover:text-white transition-colors">
+            🍅 Tomatoes
+          </button>
+          <button type="button" (click)="selectPlant('Maize')" class="px-3 py-1 text-xs bg-[var(--color-primary-surface)] text-[var(--color-primary)] rounded-full border border-[var(--color-primary)] border-opacity-30 hover:bg-[var(--color-primary)] hover:text-white transition-colors">
+            🌽 Maize
+          </button>
+          <button type="button" (click)="selectPlant('Rice')" class="px-3 py-1 text-xs bg-[var(--color-primary-surface)] text-[var(--color-primary)] rounded-full border border-[var(--color-primary)] border-opacity-30 hover:bg-[var(--color-primary)] hover:text-white transition-colors">
+            🍚 Rice
+          </button>
+          <button type="button" (click)="selectPlant('Cabbage')" class="px-3 py-1 text-xs bg-[var(--color-primary-surface)] text-[var(--color-primary)] rounded-full border border-[var(--color-primary)] border-opacity-30 hover:bg-[var(--color-primary)] hover:text-white transition-colors">
+            🥬 Cabbage
+          </button>
+        </div>
+
+        <input id="plantName" type="text" formControlName="plantName" placeholder="e.g., Tomatoes" class="w-full border-0 border-b border-[var(--color-border)] bg-transparent py-2 text-base text-[var(--color-text)] placeholder:text-[var(--color-neutral-light)] focus:outline-none focus:border-[var(--color-primary)] transition-colors" [class.border-[var(--color-danger)]]="form.get('plantName')?.invalid && form.get('plantName')?.touched">
+        <div *ngIf="form.get('plantName')?.invalid && form.get('plantName')?.touched" class="text-xs text-[var(--color-danger)]">Plant name is required</div>
       </div>
 
       <div class="flex flex-col gap-1">
-        <label for="location" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Location</label>
-        <input id="location" type="text" formControlName="location" placeholder="Where are you?" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors">
+        <label for="location" class="text-[10px] font-semibold text-[var(--color-text-muted)] uppercase tracking-widest">Location</label>
+        <input id="location" type="text" formControlName="location" placeholder="Where are you?" class="w-full border-0 border-b border-[var(--color-border)] bg-transparent py-2 text-base text-[var(--color-text)] placeholder:text-[var(--color-neutral-light)] focus:outline-none focus:border-[var(--color-primary)] transition-colors">
       </div>
 
       <div class="flex flex-col gap-1">
-        <label for="season" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Season</label>
-        <input id="season" type="text" formControlName="season" placeholder="e.g., Summer" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors">
+        <label for="season" class="text-[10px] font-semibold text-[var(--color-text-muted)] uppercase tracking-widest">Season</label>
+        <input id="season" type="text" formControlName="season" placeholder="e.g., Summer" class="w-full border-0 border-b border-[var(--color-border)] bg-transparent py-2 text-base text-[var(--color-text)] placeholder:text-[var(--color-neutral-light)] focus:outline-none focus:border-[var(--color-primary)] transition-colors">
       </div>
 
       <div class="flex flex-col gap-1">
-        <label for="soilType" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Soil Type</label>
-        <input id="soilType" type="text" formControlName="soilType" placeholder="e.g., Loamy" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors">
+        <label for="soilType" class="text-[10px] font-semibold text-[var(--color-text-muted)] uppercase tracking-widest">Soil Type</label>
+        <input id="soilType" type="text" formControlName="soilType" placeholder="e.g., Loamy" class="w-full border-0 border-b border-[var(--color-border)] bg-transparent py-2 text-base text-[var(--color-text)] placeholder:text-[var(--color-neutral-light)] focus:outline-none focus:border-[var(--color-primary)] transition-colors">
       </div>
 
       <div class="flex flex-col gap-1">
-        <label for="soilHealth" class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Soil Health</label>
-        <input id="soilHealth" type="text" formControlName="soilHealth" placeholder="e.g., Good" class="w-full border-0 border-b border-border bg-transparent py-2 text-base text-text placeholder:text-neutral-light focus:outline-none focus:border-primary transition-colors">
+        <label for="soilHealth" class="text-[10px] font-semibold text-[var(--color-text-muted)] uppercase tracking-widest">Soil Health</label>
+        <input id="soilHealth" type="text" formControlName="soilHealth" placeholder="e.g., Good" class="w-full border-0 border-b border-[var(--color-border)] bg-transparent py-2 text-base text-[var(--color-text)] placeholder:text-[var(--color-neutral-light)] focus:outline-none focus:border-[var(--color-primary)] transition-colors">
       </div>
 
-      <button type="submit" [disabled]="isLoading()" class="mt-4 w-full bg-primary text-white py-3.5 rounded-xl text-lg font-semibold">
+      <button type="submit" [disabled]="isLoading()" class="mt-4 w-full bg-[var(--color-primary)] text-white py-3.5 rounded-xl text-lg font-semibold">
         <span *ngIf="!isLoading()">Get Insights</span>
         <span *ngIf="isLoading()">Loading...</span>
       </button>
@@ -52,49 +71,98 @@
 
   <div *ngIf="advisory()">
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-[26px] font-bold text-text leading-tight">Growing {{ advisory()?.plantName }}</h1>
-      <button (click)="reset()" class="px-3 py-1 text-primary border border-primary rounded-lg text-sm font-medium">
+      <div class="flex-1">
+        <h1 class="text-[26px] font-bold text-[var(--color-tertiary)] leading-tight">Growing {{ advisory()?.plantName }}</h1>
+        <p class="text-sm text-[var(--color-text-muted)] mt-1" *ngIf="advisory()?.location || advisory()?.season">
+          {{ advisory()?.location }}{{ advisory()?.location && advisory()?.season ? ', ' : '' }}{{ advisory()?.season }}
+        </p>
+      </div>
+      <button (click)="reset()" class="px-3 py-1 text-[var(--color-primary)] border border-[var(--color-primary)] rounded-lg text-sm font-medium">
         New Search
       </button>
     </div>
 
-    <div class="flex flex-col gap-4">
-      <div *ngIf="advisory()?.plantingAdvice" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
-        <h2 class="text-lg font-bold text-primary mb-2">Planting Advice</h2>
-        <p class="text-sm text-text-muted">{{ advisory()?.plantingAdvice }}</p>
+    <!-- Hero Image for Plant -->
+    <div class="w-full h-48 rounded-2xl overflow-hidden mb-6 shadow-lg">
+      <img
+        [src]="'https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=' + getPlantImagePrompt(advisory()?.plantName) + '&image_size=square_hd'"
+        [alt]="advisory()?.plantName"
+        class="w-full h-full object-cover"
+      />
+    </div>
+
+    <div class="flex flex-col gap-5">
+      <div *ngIf="advisory()?.plantingAdvice" class="bg-[var(--color-surface-card)] rounded-2xl shadow-sm border border-[var(--color-border)] overflow-hidden">
+        <div class="flex items-center gap-3 p-4 border-b border-[var(--color-border)] bg-[var(--color-primary-surface)]">
+          <span class="material-symbols-outlined text-[var(--color-primary)] text-3xl">seedling</span>
+          <h2 class="text-lg font-bold text-[var(--color-primary)]">Planting Advice</h2>
+        </div>
+        <div class="p-4">
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{{ advisory()?.plantingAdvice }}</p>
+        </div>
       </div>
 
-      <div *ngIf="advisory()?.waterRequirements" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
-        <h2 class="text-lg font-bold text-primary mb-2">Watering</h2>
-        <p class="text-sm text-text-muted">{{ advisory()?.waterRequirements }}</p>
+      <div *ngIf="advisory()?.waterRequirements" class="bg-[var(--color-surface-card)] rounded-2xl shadow-sm border border-[var(--color-border)] overflow-hidden">
+        <div class="flex items-center gap-3 p-4 border-b border-[var(--color-border)] bg-[var(--color-info-surface)]">
+          <span class="material-symbols-outlined text-[var(--color-info)] text-3xl">water_drop</span>
+          <h2 class="text-lg font-bold text-[var(--color-info)]">Watering</h2>
+        </div>
+        <div class="p-4">
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{{ advisory()?.waterRequirements }}</p>
+        </div>
       </div>
 
-      <div *ngIf="advisory()?.fertilizerRecommendations" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
-        <h2 class="text-lg font-bold text-primary mb-2">Fertilizers</h2>
-        <p class="text-sm text-text-muted">{{ advisory()?.fertilizerRecommendations }}</p>
+      <div *ngIf="advisory()?.fertilizerRecommendations" class="bg-[var(--color-surface-card)] rounded-2xl shadow-sm border border-[var(--color-border)] overflow-hidden">
+        <div class="flex items-center gap-3 p-4 border-b border-[var(--color-border)] bg-[var(--color-success-surface)]">
+          <span class="material-symbols-outlined text-[var(--color-primary)] text-3xl">compost</span>
+          <h2 class="text-lg font-bold text-[var(--color-primary)]">Fertilizers</h2>
+        </div>
+        <div class="p-4">
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{{ advisory()?.fertilizerRecommendations }}</p>
+        </div>
       </div>
 
-      <div *ngIf="advisory()?.pestAndDiseaseTips" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
-        <h2 class="text-lg font-bold text-primary mb-2">Pests & Diseases</h2>
-        <p class="text-sm text-text-muted">{{ advisory()?.pestAndDiseaseTips }}</p>
+      <div *ngIf="advisory()?.pestAndDiseaseTips" class="bg-[var(--color-surface-card)] rounded-2xl shadow-sm border border-[var(--color-border)] overflow-hidden">
+        <div class="flex items-center gap-3 p-4 border-b border-[var(--color-border)] bg-[var(--color-warning-surface)]">
+          <span class="material-symbols-outlined text-[var(--color-warning)] text-3xl">bug_report</span>
+          <h2 class="text-lg font-bold text-[var(--color-warning)]">Pests & Diseases</h2>
+        </div>
+        <div class="p-4">
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{{ advisory()?.pestAndDiseaseTips }}</p>
+        </div>
       </div>
 
-      <div *ngIf="advisory()?.harvestTimingRecommendations" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
-        <h2 class="text-lg font-bold text-primary mb-2">Harvest Timing</h2>
-        <p class="text-sm text-text-muted">{{ advisory()?.harvestTimingRecommendations }}</p>
+      <div *ngIf="advisory()?.harvestTimingRecommendations" class="bg-[var(--color-surface-card)] rounded-2xl shadow-sm border border-[var(--color-border)] overflow-hidden">
+        <div class="flex items-center gap-3 p-4 border-b border-[var(--color-border)] bg-[var(--color-primary-surface)]">
+          <span class="material-symbols-outlined text-[var(--color-primary)] text-3xl">agriculture</span>
+          <h2 class="text-lg font-bold text-[var(--color-primary)]">Harvest Timing</h2>
+        </div>
+        <div class="p-4">
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{{ advisory()?.harvestTimingRecommendations }}</p>
+        </div>
       </div>
 
-      <div *ngIf="advisory()?.additionalRecommendations" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
-        <h2 class="text-lg font-bold text-primary mb-2">Additional Tips</h2>
-        <p class="text-sm text-text-muted">{{ advisory()?.additionalRecommendations }}</p>
+      <div *ngIf="advisory()?.additionalRecommendations" class="bg-[var(--color-surface-card)] rounded-2xl shadow-sm border border-[var(--color-border)] overflow-hidden">
+        <div class="flex items-center gap-3 p-4 border-b border-[var(--color-border)] bg-[var(--color-info-surface)]">
+          <span class="material-symbols-outlined text-[var(--color-info)] text-3xl">tips_and_updates</span>
+          <h2 class="text-lg font-bold text-[var(--color-info)]">Additional Tips</h2>
+        </div>
+        <div class="p-4">
+          <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{{ advisory()?.additionalRecommendations }}</p>
+        </div>
       </div>
 
-      <div *ngIf="advisory()?.warnings" class="bg-red-50 rounded-2xl shadow-sm border border-red-200 p-4">
-        <h2 class="text-lg font-bold text-red-700 mb-2">Warnings</h2>
-        <p class="text-sm text-red-700">{{ advisory()?.warnings }}</p>
+      <div *ngIf="advisory()?.warnings" class="bg-[var(--color-danger-surface)] rounded-2xl shadow-sm border border-[var(--color-danger)] overflow-hidden">
+        <div class="flex items-center gap-3 p-4 border-b border-[var(--color-danger)] bg-[var(--color-danger)] bg-opacity-10">
+          <span class="material-symbols-outlined text-[var(--color-danger)] text-3xl">warning</span>
+          <h2 class="text-lg font-bold text-[var(--color-danger)]">Warnings</h2>
+        </div>
+        <div class="p-4">
+          <p class="text-sm text-[var(--color-danger)] leading-relaxed">{{ advisory()?.warnings }}</p>
+        </div>
       </div>
     </div>
   </div>
 </main>
 
-<app-navbar [activeTab]="'dashboard'"></app-navbar>
+<app-navbar [activeTab]="'home'"></app-navbar>

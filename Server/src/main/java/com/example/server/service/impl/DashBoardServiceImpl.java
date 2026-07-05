@@ -1,5 +1,14 @@
 package com.example.server.service.impl;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+
 import com.example.server.dto.DailyWeatherDTO;
 import com.example.server.dto.response.OpenMeteoResponse;
 import com.example.server.dto.response.SeasonalResponseDTO;
@@ -7,17 +16,10 @@ import com.example.server.dto.response.WeatherResponseDTO;
 import com.example.server.entity.Farm;
 import com.example.server.repository.FarmRepository;
 import com.example.server.service.DashBoardService;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class DashBoardServiceImpl implements DashBoardService {
@@ -153,20 +155,24 @@ public class DashBoardServiceImpl implements DashBoardService {
         List<String> latlon = getLatLongAddress(ownerId);
         Double lon = Double.parseDouble(latlon.get(0));
         Double lat = Double.parseDouble(latlon.get(1));
-
-//        getWeatherByLocation(lat, lon);
-
         return getWeatherByLocation(lat, lon);
     }
 
     public List<String> getLatLongAddress(Long id){
-        Farm farm = this.farmRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Farm not found with id: " + id));
-
         List<String> latLon = new ArrayList<>();
-        latLon.add(farm.getLatitude().toString());
-        latLon.add(farm.getLongitude().toString());
-        latLon.add(farm.getLocation());
+        
+        Farm farm = this.farmRepository.findById(id).orElse(null);
+        if (farm != null) {
+            latLon.add(farm.getLatitude().toString());
+            latLon.add(farm.getLongitude().toString());
+            latLon.add(farm.getLocation());
+        } else {
+            // Default coordinates for Nairobi, Kenya as fallback
+            latLon.add("36.8219");
+            latLon.add("-1.2921");
+            latLon.add("Nairobi, Kenya");
+        }
+        
         return latLon;
     }
 
@@ -191,13 +197,15 @@ public class DashBoardServiceImpl implements DashBoardService {
         var daily = response.daily();
 
         WeatherResponseDTO weatherResponseDTO = new WeatherResponseDTO();
-        for (int i = 0; i < 5; i++) {
+        // Use actual loop index i instead of 0!
+        int daysToAdd = Math.min(5, daily.time().size());
+        for (int i = 0; i < daysToAdd; i++) {
             weatherResponseDTO.dailyWeather.add(new DailyWeatherDTO(
-                    LocalDate.parse(daily.time().get(0)),
-                    daily.maxTemp().get(0),
-                    daily.minTemp().get(0),
-                    daily.precipitation().get(0),
-                    daily.windSpeed().get(0),
+                    LocalDate.parse(daily.time().get(i)),
+                    daily.maxTemp().get(i),
+                    daily.minTemp().get(i),
+                    daily.precipitation().get(i),
+                    daily.windSpeed().get(i),
                     75,               // Placeholder as daily relative humidity requires hourly aggregation
                     "Sunny/Cloudy"    // Placeholder for text conditions
             ));

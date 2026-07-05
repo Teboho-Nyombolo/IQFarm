@@ -18,15 +18,15 @@ public class DashboardController {
         this.dashBoardService = dashBoardService;
     }
 
-    @GetMapping("/weather/{ownerId}")
-    public ResponseEntity<ApiResponse<WeatherResponseDTO>> getDailyWeather(@PathVariable Long ownerId) {
-        WeatherResponseDTO weatherResponseDTO = this.dashBoardService.getCurrentWeather(ownerId);
+    @GetMapping("/weather/{farmId}")
+    public ResponseEntity<ApiResponse<WeatherResponseDTO>> getDailyWeather(@PathVariable Long farmId) {
+        WeatherResponseDTO weatherResponseDTO = this.dashBoardService.getCurrentWeather(farmId);
         return ResponseEntity.ok(ApiResponse.success(weatherResponseDTO));
     }
 
-    @GetMapping("/seasonal/{ownerId}")
-    public ResponseEntity<ApiResponse<SeasonalResponseDTO>> getSeasonal(@PathVariable Long ownerId) {
-        SeasonalResponseDTO seasonalResponseDTO = this.dashBoardService.getCurrentSeasonal(ownerId);
+    @GetMapping("/seasonal/{farmId}")
+    public ResponseEntity<ApiResponse<SeasonalResponseDTO>> getSeasonal(@PathVariable Long farmId) {
+        SeasonalResponseDTO seasonalResponseDTO = this.dashBoardService.getCurrentSeasonal(farmId);
         return ResponseEntity.ok(ApiResponse.success(seasonalResponseDTO));
     }
 }
