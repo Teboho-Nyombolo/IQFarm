@@ -1,48 +1,43 @@
-<header class="sticky top-0 z-40 bg-white border-b border-gray-100 shadow-sm">
+<header class="sticky top-0 z-40 bg-[var(--color-surface)] border-b border-[var(--color-border)] shadow-sm">
   <div class="flex items-center justify-between px-4 h-16 max-w-md mx-auto">
     <div class="flex items-center gap-3">
-      <div class="flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-primary" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M17 8C8 10 5.9 16.17 3.82 21.7L5.71 22c1-2.5 2-4.94 5.29-6.29C11 19 12 21 12 21s3-4 1-9c2 1 3.5 3 4 6 1-1.5 2-4.5 0-10z"/>
-        </svg>
-        <span class="text-lg font-bold text-text tracking-tight">IQFarm</span>
-      </div>
+      <app-logo [size]="32" [textSize]="16"></app-logo>
     </div>
   </div>
 </header>
 
 <main class="max-w-md mx-auto w-full px-4 py-6 pb-28">
   <div class="mb-6">
-    <h1 class="text-[26px] font-bold text-text leading-tight">Your Crops</h1>
-    <p class="text-sm text-text-muted mt-0.5">Monitor your crops</p>
+    <h1 class="text-[26px] font-bold text-[var(--color-tertiary)] leading-tight">Your Crops</h1>
+    <p class="text-sm text-[var(--color-text-muted)] mt-0.5">Monitor your crops</p>
   </div>
 
   <div *ngIf="isLoading()" class="flex justify-center py-8">
-    <p class="text-text-muted">Loading crops...</p>
+    <p class="text-[var(--color-text-muted)]">Loading crops...</p>
   </div>
 
   <div *ngIf="!isLoading() && crops().length === 0" class="flex flex-col items-center justify-center py-10 gap-4">
-    <p class="text-text-muted text-center">No crops yet</p>
-    <button (click)="addNewCrop()" class="rounded-lg bg-primary px-4 py-2 text-white font-medium hover:bg-primary-light transition-colors">
+    <p class="text-[var(--color-text-muted)] text-center">No crops yet</p>
+    <button (click)="addNewCrop()" class="rounded-lg bg-[var(--color-primary)] px-4 py-2 text-white font-medium hover:bg-[var(--color-primary-light)] transition-colors">
       Add your first crop
     </button>
   </div>
 
   <div *ngIf="!isLoading() && crops().length > 0" class="flex flex-col gap-5">
-    <div *ngFor="let crop of crops()" (click)="viewCropDetails(crop.cropId)" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 cursor-pointer hover:shadow-md transition-shadow">
-      <p class="text-[10px] font-semibold text-text-muted uppercase tracking-widest mb-0.5">
+    <div *ngFor="let crop of crops()" (click)="viewCropDetails(crop.cropId)" class="bg-[var(--color-surface-card)] rounded-2xl shadow-sm border border-[var(--color-border)] p-4 cursor-pointer hover:shadow-md transition-shadow">
+      <p class="text-[10px] font-semibold text-[var(--color-text-muted)] uppercase tracking-widest mb-0.5">
         {{ crop.farmName || 'Your farm' }}
       </p>
-      <h2 class="text-xl font-bold text-text mb-1">{{ crop.cropName }}</h2>
-      <p class="text-sm text-text-muted mb-3">{{ crop.cropType }}</p>
+      <h2 class="text-xl font-bold text-[var(--color-text)] mb-1">{{ crop.cropName }}</h2>
+      <p class="text-sm text-[var(--color-text-muted)] mb-3">{{ crop.cropType }}</p>
       <div class="flex items-center gap-0 mb-4">
         <div class="flex flex-col pr-4">
-          <span class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Count</span>
-          <span class="text-lg font-bold mt-0.5 text-text">{{ crop.cropCount }}</span>
+          <span class="text-[10px] font-semibold text-[var(--color-text-muted)] uppercase tracking-widest">Count</span>
+          <span class="text-lg font-bold mt-0.5 text-[var(--color-text)]">{{ crop.cropCount }}</span>
         </div>
-        <div class="w-px h-8 bg-gray-200 mr-4"></div>
+        <div class="w-px h-8 bg-[var(--color-border)] mr-4"></div>
         <div class="flex flex-col pr-4">
-          <span class="text-[10px] font-semibold text-text-muted uppercase tracking-widest">Status</span>
+          <span class="text-[10px] font-semibold text-[var(--color-text-muted)] uppercase tracking-widest">Status</span>
           <span class="text-lg font-bold mt-0.5" [class]="getStatusColor(crop.status)">
             {{ crop.status }}
           </span>
@@ -52,8 +47,8 @@
   </div>
 </main>
 
-<footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40">
-  <button (click)="addNewCrop()" class="w-full bg-primary text-white py-3.5 text-lg font-semibold">
+<footer class="fixed bottom-0 left-0 right-0 bg-[var(--color-surface)] border-t border-[var(--color-border)] z-40">
+  <button (click)="addNewCrop()" class="w-full bg-[var(--color-primary)] text-white py-3.5 text-lg font-semibold">
     Add Crop
   </button>
 </footer>

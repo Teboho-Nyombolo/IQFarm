@@ -2,6 +2,7 @@ import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { LogoComponent } from '../../shared/components/logo/logo.component';
 import { PlantAdvisoryService, PlantAdvisoryRequest, PlantAdvisoryResponse } from '../../core/services/plant-advisory.service';
 import { AuthService } from '../../core/services/auth.service';
 import { FarmService } from '../../core/services/farm.service';
@@ -9,9 +10,8 @@ import { FarmService } from '../../core/services/farm.service';
 @Component({
   selector: 'app-seasonal-insights',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NavbarComponent],
-  templateUrl: './seasonal-insights.component.html',
-  styleUrls: ['./seasonal-insights.component.css']
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NavbarComponent, LogoComponent],
+  templateUrl: './seasonal-insights.component.html'
 })
 export class SeasonalInsightsComponent implements OnInit {
   readonly #fb = inject(FormBuilder);
@@ -75,5 +75,16 @@ export class SeasonalInsightsComponent implements OnInit {
   reset(): void {
     this.advisory.set(null);
     this.form.patchValue({ plantName: '' });
+  }
+
+  getPlantImagePrompt(plantName: string | undefined): string {
+    if (!plantName) {
+      return encodeURIComponent('agricultural plant in field');
+    }
+    return encodeURIComponent(`${plantName} plant growing in healthy field, vibrant green, agricultural setting`);
+  }
+
+  selectPlant(plantName: string): void {
+    this.form.patchValue({ plantName });
   }
 }

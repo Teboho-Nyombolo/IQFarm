@@ -2,6 +2,7 @@ import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { LogoComponent } from '../../../shared/components/logo/logo.component';
 import { CropService, CropSummary } from '../../../core/services/crop.service';
 import { DiagnosisService, DiagnosisResponse } from '../../../core/services/diagnosis.service';
 import { CropTrackerService, CropTrackerResponse } from '../../../core/services/crop-tracker.service';
@@ -35,6 +36,24 @@ export class CropDetailsComponent implements OnInit {
       }
       const id = Number(idParam);
       this.cropId.set(id);
+
+      this.#cropService.getCropById(id).subscribe({
+        next: (crop) => {
+          this.crop.set({
+            cropId: crop.cropId,
+            cropName: crop.cropName,
+            cropType: crop.cropType,
+            status: crop.status,
+            waterFrequency: crop.waterFrequency,
+            cropCount: crop.cropCount,
+            minerals: crop.minerals,
+            farmName: crop.farmName,
+            cropDate: crop.cropDate
+          });
+        },
+        error: (err) => console.error(err)
+      });
+
       this.#diagnosisService.getDiagnosesByCrop(id).subscribe({
         next: (d) => {
           this.diagnoses.set(d);

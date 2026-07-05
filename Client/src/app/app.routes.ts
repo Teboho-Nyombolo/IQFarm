@@ -7,6 +7,7 @@ import { CropsComponent } from './features/crops/crops.component';
 import { AddCropComponent } from './features/crops/add-crop/add-crop.component';
 import { WeatherComponent } from './features/weather/weather.component';
 import { PlantAdvisoryComponent } from './features/plant-advisory/plant-advisory.component';
+import { SeasonalInsightsComponent } from './features/seasonal-insights/seasonal-insights.component';
 import { CropDetailsComponent } from './features/crops/crop-details/crop-details.component';
 import { CropInspectComponent } from './features/crops/crop-inspect/crop-inspect.component';
 
@@ -42,6 +43,10 @@ export const routes: Routes = [
     {
         path: 'plant-advisory',
         component: PlantAdvisoryComponent
+    },
+    {
+        path: 'seasonal-insights',
+        component: SeasonalInsightsComponent
     },
     {
         path: 'crops/:id',

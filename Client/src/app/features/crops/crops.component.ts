@@ -2,6 +2,7 @@ import { Component, OnInit, PLATFORM_ID, inject, signal } from '@angular/core';
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { LogoComponent } from '../../shared/components/logo/logo.component';
 import { CropService, CropSummary } from '../../core/services/crop.service';
 import { AuthService } from '../../core/services/auth.service';
 import { FarmService } from '../../core/services/farm.service';
@@ -9,7 +10,7 @@ import { FarmService } from '../../core/services/farm.service';
 @Component({
   selector: 'app-crops',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, LogoComponent],
   templateUrl: './crops.component.html',
   styleUrls: ['./crops.component.css']
 })
@@ -63,15 +64,15 @@ export class CropsComponent implements OnInit {
   getStatusColor(status: string): string {
     switch (status?.toUpperCase()) {
       case 'ACTIVE':
-        return 'text-green-600';
+        return 'text-[var(--color-primary)]';
       case 'FAILED':
-        return 'text-red-500';
+        return 'text-[var(--color-danger)]';
       case 'HARVESTED':
-        return 'text-blue-600';
+        return 'text-[var(--color-info)]';
       case 'PLANNING':
-        return 'text-yellow-600';
+        return 'text-[var(--color-warning)]';
       default:
-        return 'text-text';
+        return 'text-[var(--color-text)]';
     }
   }
 }

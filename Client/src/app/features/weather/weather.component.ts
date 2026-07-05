@@ -1,6 +1,8 @@
 import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser, NgClass } from '@angular/common';
+import { Router } from '@angular/router';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { LogoComponent } from '../../shared/components/logo/logo.component';
 import { WeatherService } from './services/weather.service';
 import { DailyWeather } from './models/weather.model';
 
@@ -30,13 +32,14 @@ function dateToDayLabel(dateStr: string): string {
 @Component({
   selector: 'app-weather',
   standalone: true,
-  imports: [NgClass, NavbarComponent],
+  imports: [NgClass, NavbarComponent, LogoComponent],
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.css',
 })
 export class WeatherComponent implements OnInit {
   readonly #weatherService = inject(WeatherService);
   readonly #platformId = inject(PLATFORM_ID);
+  readonly #router = inject(Router);
 
   // ─── State ─────────────────────────────────────────────────
   readonly dailyWeather = signal<DailyWeather[]>([]);
@@ -103,5 +106,9 @@ export class WeatherComponent implements OnInit {
   /** Expose helper for template use. */
   round(n: number): number {
     return Math.round(n);
+  }
+
+  viewSeasonalInsights(): void {
+    this.#router.navigate(['/seasonal-insights']);
   }
 }

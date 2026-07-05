@@ -1,36 +1,24 @@
-<div class="min-h-screen w-full flex flex-col items-center">
+<div class="min-h-screen w-full flex flex-col items-center bg-[var(--color-surface)]">
   <!-- Hero Section -->
   <section class="flex-1 flex flex-col items-center px-3 pt-9 text-center">
-    <!-- Logo Placeholder -->
-    <div
-      class="w-20 h-20 rounded-2xl bg-[var(--color-primary)] flex items-center justify-center shadow-lg"
-    >
-      <span class="text-[var(--color-text-on-primary)] text-3xl font-bold"
-        >IQ</span
-      >
-    </div>
+    <!-- Logo -->
+    <app-logo [size]="80" [textSize]="24"></app-logo>
 
-    <!-- App Name -->
-    <h2
-      class="mt-6 text-sm font-semibold tracking-[0.3em] uppercase text-[var(--color-tertiary)]"
-    >
-      IQFarm
-    </h2>
     <!-- Main Heading -->
     <h1
-      class="mt-3 text-4xl font-bold leading-tight text-[var(--color-tertiary)]"
+      class="mt-6 text-4xl font-bold leading-tight text-[var(--color-tertiary)]"
     >
       Intelligence for Every Field
     </h1>
     <!-- Description -->
-    <p class="mt-5 max-w-sm text-base leading-7 text-[var(--color-tertiary)]">
+    <p class="mt-5 max-w-sm text-base leading-7 text-[var(--color-text-muted)]">
       Harness the power of AI and real-time telemetry to optimize crop yields,
       reduce waste, and manage your farm with unprecedented precision.
     </p>
     <!-- Get Started Button -->
     <button
       (click)="register()"
-      class="mt-10 w-full max-w-xs rounded-xl bg-[var(--color-primary)] py-4 text-lg font-semibold text-[var(--color-text-on-primary)] transition duration-300 hover:bg-[var(--color-primary-dark)]"
+      class="mt-10 w-full max-w-xs rounded-xl bg-[var(--color-primary)] py-4 text-lg font-semibold text-white transition duration-300 hover:bg-[var(--color-primary-dark)]"
     >
       Get Started
     </button>
@@ -41,7 +29,7 @@
       Core Intelligence
     </h2>
 
-    <p class="mt-3 text-base text-[var(--color-tertiary)]">
+    <p class="mt-3 text-base text-[var(--color-text-muted)]">
       The pillars of modern agricultural automation.<br />
       With a little elbow grease and a lot of AI,<br />
       We help farmers make better decisions, faster.
@@ -52,7 +40,7 @@
   <section class="px-6 pb-16">
     <div class="flex flex-col gap-6 max-w-sm mx-auto">
       <div
-        class="bg-[var(--color-primary)] rounded-[0.7rem] p-8 shadow-lg flex flex-col items-center text-center"
+        class="bg-[var(--color-primary)] rounded-xl p-8 shadow-lg flex flex-col items-center text-center"
       >
         <!-- Icon -->
         <div
@@ -85,7 +73,7 @@
 
       <!-- Automated Tasks Card -->
       <div
-        class="bg-[var(--color-primary)] rounded-[0.7rem] p-8 shadow-lg flex flex-col items-center text-center"
+        class="bg-[var(--color-primary)] rounded-xl p-8 shadow-lg flex flex-col items-center text-center"
       >
         <!-- Icon -->
         <div
@@ -117,7 +105,7 @@
 
       <!-- Weather Insights Card -->
       <div
-        class="bg-[var(--color-primary)] rounded-[0.7rem] p-8 shadow-lg flex flex-col items-center text-center"
+        class="bg-[var(--color-primary)] rounded-xl p-8 shadow-lg flex flex-col items-center text-center"
       >
         <!-- Icon -->
         <div
@@ -149,7 +137,7 @@
 
       <!-- Disease Detection Card -->
       <div
-        class="bg-[var(--color-primary)] rounded-[0.7rem] p-8 shadow-lg flex flex-col items-center text-center"
+        class="bg-[var(--color-primary)] rounded-xl p-8 shadow-lg flex flex-col items-center text-center"
       >
         <!-- Icon -->
         <div
@@ -186,10 +174,10 @@
     </div>
   </section>
   <!-- Footer -->
-    <footer class="w-full border-t border-[var(--color-primary)] bg-[var(--color-primary)] py-2">
+    <footer class="w-full border-t border-[var(--color-border)] bg-[var(--color-surface)] py-4">
         <div class="flex flex-col items-center justify-center text-center px-2">
-        <h2 class="text-base font-semibold text-white">IQFarm</h2>
-        <p class="mt-1 text-xs text-white">© 2026 IQFarm. All rights reserved.</p>
+        <app-logo [size]="32" [textSize]="16"></app-logo>
+        <p class="mt-2 text-xs text-[var(--color-text-muted)]">© 2026 IQFarm. All rights reserved.</p>
         </div>
     </footer>
 </div>

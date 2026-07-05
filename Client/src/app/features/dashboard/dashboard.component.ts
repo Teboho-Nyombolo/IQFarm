@@ -7,11 +7,13 @@ import {
   signal,
 } from '@angular/core';
 import { isPlatformBrowser, NgClass } from '@angular/common';
+import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { WeatherService } from '../weather/services/weather.service';
 import { CropService, CropSummary } from '../../core/services/crop.service';
 import { DailyWeather } from '../weather/models/weather.model';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
+import { LogoComponent } from '../../shared/components/logo/logo.component';
 
 /** Maps a crop status to a soil-moisture proxy percentage (0–100). */
 function statusToMoisturePercent(status: CropSummary['status']): number {
@@ -44,7 +46,7 @@ function todayLabel(): string {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgClass, NavbarComponent],
+  imports: [NgClass, NavbarComponent, LogoComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -52,6 +54,7 @@ export class DashboardComponent implements OnInit {
   readonly #weatherService = inject(WeatherService);
   readonly #cropService = inject(CropService);
   readonly #platformId = inject(PLATFORM_ID);
+  readonly #router = inject(Router);
 
   // ─── Greeting ──────────────────────────────────────────────
   readonly greeting = getGreeting();
@@ -140,4 +143,15 @@ export class DashboardComponent implements OnInit {
     return Math.round(n);
   }
 
+  viewCalendar(): void {
+    this.#router.navigate(['/seasonal-insights']);
+  }
+
+  viewFullDatabase(): void {
+    this.#router.navigate(['/crops']);
+  }
+
+  addNewItem(): void {
+    this.#router.navigate(['/crops/add']);
+  }
 }

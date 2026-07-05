@@ -1,15 +1,19 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
+<div class="min-h-screen flex items-center justify-center bg-[var(--color-surface)]">
 
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <div class="w-full max-w-md bg-[var(--color-surface-card)] rounded-2xl shadow-lg p-8">
 
-        <h1 class="text-3xl font-bold text-center text-[#1B4332]">
+        <div class="flex justify-center mb-6">
+            <app-logo [size]="56" [textSize]="20"></app-logo>
+        </div>
+
+        <h1 class="text-3xl font-bold text-center text-[var(--color-tertiary)]">
             Farm Information
         </h1>
 
         <form (ngSubmit)="createFarm()" class="mt-8 space-y-5">
 
             <div>
-                <label class="block text-sm font-medium mb-2">
+                <label class="block text-sm font-medium mb-2 text-[var(--color-text)]">
                     Farm Name
                 </label>
 
@@ -18,11 +22,11 @@
                     [(ngModel)]="farm.farmName"
                     name="farmName"
                     placeholder="Green Valley Farm"
-                    class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1B4332]">
+                    class="w-full rounded-lg border border-[var(--color-border)] px-4 py-3 bg-white text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]">
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-2">
+                <label class="block text-sm font-medium mb-2 text-[var(--color-text)]">
                     Street Address
                 </label>
 
@@ -31,11 +35,11 @@
                     [(ngModel)]="farm.streetAddress"
                     name="streetAddress"
                     placeholder="8 Earls Avenue"
-                    class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1B4332]">
+                    class="w-full rounded-lg border border-[var(--color-border)] px-4 py-3 bg-white text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]">
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-2">
+                <label class="block text-sm font-medium mb-2 text-[var(--color-text)]">
                     Suburb
                 </label>
 
@@ -44,11 +48,11 @@
                     [(ngModel)]="farm.suburb"
                     name="suburb"
                     placeholder="Cresta"
-                    class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1B4332]">
+                    class="w-full rounded-lg border border-[var(--color-border)] px-4 py-3 bg-white text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]">
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-2">
+                <label class="block text-sm font-medium mb-2 text-[var(--color-text)]">
                     City
                 </label>
 
@@ -57,11 +61,11 @@
                     [(ngModel)]="farm.city"
                     name="city"
                     placeholder="Randburg"
-                    class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1B4332]">
+                    class="w-full rounded-lg border border-[var(--color-border)] px-4 py-3 bg-white text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]">
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-2">
+                <label class="block text-sm font-medium mb-2 text-[var(--color-text)]">
                     Zip Code
                 </label>
 
@@ -70,12 +74,12 @@
                     [(ngModel)]="farm.zipCode"
                     name="zipCode"
                     placeholder="1744"
-                    class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1B4332]">
+                    class="w-full rounded-lg border border-[var(--color-border)] px-4 py-3 bg-white text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]">
             </div>
 
             <button
                 type="submit"
-                class="w-full bg-[#1B4332] text-white py-3 rounded-lg hover:bg-[#153526] transition">
+                class="w-full bg-[var(--color-primary)] text-white py-3 rounded-lg hover:bg-[var(--color-primary-dark)] transition">
                 Create Farm
             </button>
 
