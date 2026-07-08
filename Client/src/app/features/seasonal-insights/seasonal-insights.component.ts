@@ -36,7 +36,7 @@ export class SeasonalInsightsComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.#platformId)) {
-      this.#farmService.getFarmByOwnerId(this.#authService.getUserId()).subscribe({
+      this.#farmService.getFarmByOwnerId(this.#authService.getUserId()!).subscribe({
         next: (farm) => {
           if (farm) {
             this.form.patchValue({ location: farm.farmAddress });

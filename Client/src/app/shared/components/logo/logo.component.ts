@@ -23,7 +23,7 @@ import { Component, Input } from '@angular/core';
           [style.fontSize]="textSize + 'px'" 
           class="font-bold text-[var(--color-tertiary)]"
         >
-          IQFarm
+          Farm
         </span>
       }
     </div>
