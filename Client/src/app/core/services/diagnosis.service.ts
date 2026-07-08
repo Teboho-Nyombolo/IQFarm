@@ -37,7 +37,13 @@ export interface DiagnosisResponse {
   confidenceLevel: number;
   confidenceFlag: string;
   description?: string;
+  rootCause?: string;
+  weatherImpact?: string;
+  soilImpact?: string;
+  pestImpact?: string;
+  pesticideImpact?: string;
   treatmentRecommendations?: string;
+  yieldRescueMeasures?: string;
   pesticides?: string;
   fertilizers?: string;
   preventionTips?: string;

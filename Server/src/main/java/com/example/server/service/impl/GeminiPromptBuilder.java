@@ -41,10 +41,16 @@ public class GeminiPromptBuilder {
         prompt.append("DISEASE_NAME: [Name of disease if YES, otherwise 'None']\n");
         prompt.append("CONFIDENCE_LEVEL: [Percentage 0-100]\n");
         prompt.append("DESCRIPTION: [Brief description of the disease and symptoms observed]\n");
+        prompt.append("ROOT_CAUSE: [What is causing the crops to not grow - explain clearly if it's disease, weather, soil, pests, pesticides, or a combination]\n");
+        prompt.append("WEATHER_IMPACT: [How weather conditions are affecting the crop]\n");
+        prompt.append("SOIL_IMPACT: [How soil type or health is affecting the crop]\n");
+        prompt.append("PEST_IMPACT: [How pests are affecting the crop (if applicable)]\n");
+        prompt.append("PESTICIDE_IMPACT: [How any pesticide use might be affecting the crop (if applicable)]\n");
         prompt.append("TREATMENT_RECOMMENDATIONS: [Step-by-step treatment instructions]\n");
+        prompt.append("YIELD_RESCUE_MEASURES: [What can be done to save or rescue the current yield]\n");
         prompt.append("PESTICIDES: [Recommended pesticides/products to buy, with application instructions]\n");
         prompt.append("FERTILIZERS: [Recommended fertilizers and soil amendments, with application instructions]\n");
-        prompt.append("PREVENTION_TIPS: [How to prevent this disease in the future]\n\n");
+        prompt.append("PREVENTION_TIPS: [How to prevent this issue in the future]\n\n");
         prompt.append("Be specific, practical, and actionable. If you are uncertain, state your uncertainty clearly.");
 
         return prompt.toString();

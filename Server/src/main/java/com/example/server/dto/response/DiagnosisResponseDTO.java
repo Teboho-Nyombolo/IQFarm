@@ -1,11 +1,11 @@
 package com.example.server.dto.response;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -35,5 +35,11 @@ public class DiagnosisResponseDTO {
     private String pesticides;
     private String fertilizers;
     private String preventionTips;
+    private String rootCause;
+    private String weatherImpact;
+    private String soilImpact;
+    private String pestImpact;
+    private String pesticideImpact;
+    private String yieldRescueMeasures;
     private LocalDateTime createdAt;
 }

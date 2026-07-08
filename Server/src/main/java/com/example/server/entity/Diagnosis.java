@@ -1,10 +1,27 @@
 package com.example.server.entity;
 
-import com.example.server.enums.ConfidenceFlag;
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.LocalDateTime;
+
+import com.example.server.enums.ConfidenceFlag;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "diagnoses")
@@ -83,6 +100,24 @@ public class Diagnosis {
 
     @Column(name = "prevention_tips", columnDefinition = "TEXT")
     private String preventionTips;
+
+    @Column(name = "root_cause", columnDefinition = "TEXT")
+    private String rootCause;
+
+    @Column(name = "weather_impact", columnDefinition = "TEXT")
+    private String weatherImpact;
+
+    @Column(name = "soil_impact", columnDefinition = "TEXT")
+    private String soilImpact;
+
+    @Column(name = "pest_impact", columnDefinition = "TEXT")
+    private String pestImpact;
+
+    @Column(name = "pesticide_impact", columnDefinition = "TEXT")
+    private String pesticideImpact;
+
+    @Column(name = "yield_rescue_measures", columnDefinition = "TEXT")
+    private String yieldRescueMeasures;
 
     @Column(name = "raw_response", columnDefinition = "TEXT")
     private String rawResponse;

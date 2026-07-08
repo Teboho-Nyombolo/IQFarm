@@ -1,9 +1,9 @@
 package com.example.server.service.impl;
 
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class GeminiResponseParser {
@@ -14,7 +14,13 @@ public class GeminiResponseParser {
         result.put("diseaseName", "None");
         result.put("confidenceLevel", "0");
         result.put("description", "");
+        result.put("rootCause", "");
+        result.put("weatherImpact", "");
+        result.put("soilImpact", "");
+        result.put("pestImpact", "");
+        result.put("pesticideImpact", "");
         result.put("treatmentRecommendations", "");
+        result.put("yieldRescueMeasures", "");
         result.put("pesticides", "");
         result.put("fertilizers", "");
         result.put("preventionTips", "");
@@ -44,9 +50,33 @@ public class GeminiResponseParser {
                 saveCurrentField(result, currentKey, currentField);
                 currentKey = "description";
                 currentField = new StringBuilder(extractValue(line));
+            } else if (line.startsWith("ROOT_CAUSE:")) {
+                saveCurrentField(result, currentKey, currentField);
+                currentKey = "rootCause";
+                currentField = new StringBuilder(extractValue(line));
+            } else if (line.startsWith("WEATHER_IMPACT:")) {
+                saveCurrentField(result, currentKey, currentField);
+                currentKey = "weatherImpact";
+                currentField = new StringBuilder(extractValue(line));
+            } else if (line.startsWith("SOIL_IMPACT:")) {
+                saveCurrentField(result, currentKey, currentField);
+                currentKey = "soilImpact";
+                currentField = new StringBuilder(extractValue(line));
+            } else if (line.startsWith("PEST_IMPACT:")) {
+                saveCurrentField(result, currentKey, currentField);
+                currentKey = "pestImpact";
+                currentField = new StringBuilder(extractValue(line));
+            } else if (line.startsWith("PESTICIDE_IMPACT:")) {
+                saveCurrentField(result, currentKey, currentField);
+                currentKey = "pesticideImpact";
+                currentField = new StringBuilder(extractValue(line));
             } else if (line.startsWith("TREATMENT_RECOMMENDATIONS:")) {
                 saveCurrentField(result, currentKey, currentField);
                 currentKey = "treatmentRecommendations";
+                currentField = new StringBuilder(extractValue(line));
+            } else if (line.startsWith("YIELD_RESCUE_MEASURES:")) {
+                saveCurrentField(result, currentKey, currentField);
+                currentKey = "yieldRescueMeasures";
                 currentField = new StringBuilder(extractValue(line));
             } else if (line.startsWith("PESTICIDES:")) {
                 saveCurrentField(result, currentKey, currentField);
