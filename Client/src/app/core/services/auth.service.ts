@@ -35,15 +35,19 @@ export class AuthService {
       .pipe(map((res) => res.data));
   }
 
-  private userIdSource = new BehaviorSubject<number>(0);
+  private userSource = new BehaviorSubject<UserResponse | null>(null);
 
-  userId$ = this.userIdSource.asObservable();
+  user$ = this.userSource.asObservable();
 
-  setUserId(id: number) {
-    this.userIdSource.next(id);
+  setUser(user: UserResponse): void {
+    this.userSource.next(user);
   }
 
-  getUserId() {
-    return this.userIdSource.value;
+  getUser(): UserResponse | null {
+    return this.userSource.value;
+  }
+
+  getUserId(): number | null {
+    return this.userSource.value?.userId ?? null;
   }
 }

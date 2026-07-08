@@ -1,7 +1,13 @@
-<header class="sticky top-0 z-40 bg-[var(--color-surface)] border-b border-[var(--color-border)] shadow-sm">
-  <div class="flex items-center justify-between px-4 h-16 max-w-md mx-auto">
-    <div class="flex items-center gap-3">
-      <app-logo [size]="32" [textSize]="16"></app-logo>
+<header
+  class="sticky top-0 z-50 w-full h-16 bg-[var(--color-surface)]/80 backdrop-blur-md border-b border-[var(--color-border)]"
+>
+  <div class="flex items-center justify-between h-full px-4">
+    <!-- Logo -->
+    <app-logo [size]="40" [textSize]="18"></app-logo>
+
+    <!-- Profile -->
+    <div (click)="goToProfile()" class="w-10 h-10 rounded-full bg-[var(--color-primary)] flex items-center justify-center ring-2 ring-[var(--color-primary)]/10">
+      <span class="material-symbols-outlined text-white" style="font-variation-settings:'FILL' 1">person</span>
     </div>
   </div>
 </header>

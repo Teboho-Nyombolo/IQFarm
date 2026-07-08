@@ -37,7 +37,7 @@ export class AddCropComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.#farmService.getFarmByOwnerId(this.#authService.getUserId()).subscribe({
+    this.#farmService.getFarmByOwnerId(this.#authService.getUserId()!).subscribe({
       next: (farm: FarmResponse | null) => {
         this.farmId.set(farm?.farmId ?? null);
       },

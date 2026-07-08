@@ -6,24 +6,24 @@ import { Component, Input } from '@angular/core';
   imports: [],
   template: `
     <div class="flex items-center gap-2">
-      <div 
-        [style.width]="size + 'px'" 
-        [style.height]="size + 'px'" 
+      <div
+        [style.width]="size + 'px'"
+        [style.height]="size + 'px'"
         class="rounded-xl bg-[var(--color-primary)] flex items-center justify-center"
       >
-        <span 
-          [style.fontSize]="(size / 2.5) + 'px'" 
+        <span
+          [style.fontSize]="(size / 2.5) + 'px'"
           class="text-white font-bold"
         >
           IQ
         </span>
       </div>
       @if (showText) {
-        <span 
-          [style.fontSize]="textSize + 'px'" 
+        <span
+          [style.fontSize]="textSize + 'px'"
           class="font-bold text-[var(--color-tertiary)]"
         >
-          IQFarm
+          Farm
         </span>
       }
     </div>

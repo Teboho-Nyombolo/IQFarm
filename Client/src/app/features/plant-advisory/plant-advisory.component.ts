@@ -39,7 +39,7 @@ export class PlantAdvisoryComponent {
 
   ngOnInit() {
     if (isPlatformBrowser(this.#platformId)) {
-      this.#farmService.getFarmByOwnerId(this.#authService.getUserId()).subscribe({
+      this.#farmService.getFarmByOwnerId(this.#authService.getUserId()!).subscribe({
         next: (farm) => {
           if (farm) {
             this.farmId.set(farm.farmId);
@@ -84,7 +84,7 @@ export class PlantAdvisoryComponent {
     this.advisoryForm.reset();
     this.advisoryResponse.set(null);
     if (this.farmId()) {
-      this.#farmService.getFarmByOwnerId(this.#authService.getUserId()).subscribe({
+      this.#farmService.getFarmByOwnerId(this.#authService.getUserId()!).subscribe({
         next: (farm) => {
           if (farm) this.advisoryForm.patchValue({ location: farm.farmAddress });
         }
