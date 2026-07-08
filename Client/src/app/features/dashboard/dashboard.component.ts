@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { WeatherService } from '../weather/services/weather.service';
 import { CropService, CropSummary } from '../../core/services/crop.service';
+import { AuthService } from '../../core/services/auth.service';
 import { DailyWeather } from '../weather/models/weather.model';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { LogoComponent } from '../../shared/components/logo/logo.component';
@@ -53,12 +54,16 @@ function todayLabel(): string {
 export class DashboardComponent implements OnInit {
   readonly #weatherService = inject(WeatherService);
   readonly #cropService = inject(CropService);
+  readonly #authService = inject(AuthService);
   readonly #platformId = inject(PLATFORM_ID);
   readonly #router = inject(Router);
 
   // ─── Greeting ──────────────────────────────────────────────
   readonly greeting = getGreeting();
   readonly dateLabel = todayLabel();
+
+  /** Display name of the signed-in user (falls back to "Farmer"). */
+  readonly userName = signal<string>('Farmer');
 
   // ─── State ─────────────────────────────────────────────────
   readonly weather = signal<DailyWeather | null>(null);
@@ -120,6 +125,9 @@ export class DashboardComponent implements OnInit {
       this.isLoadingCrops.set(false);
       return;
     }
+
+    // Show the signed-in user's first name in the welcome header.
+    this.userName.set(this.#authService.getUser()?.name ?? 'Farmer');
 
     // TODO: Replace farmId=1 with auth-derived ID once auth is implemented.
     forkJoin({

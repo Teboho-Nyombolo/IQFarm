@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* Let pointer events pass through to the page; the component listens
+     on window so interaction still works. */
+  pointer-events: none;
+}
+
+/* Calming night-sky gradient: deep forest/teal fading to a softer earthy
+   dark. Painted by CSS so it stays static and cheap; stars animate on top. */
+:host(.starfield--with-bg) {
+  background:
+    radial-gradient(
+      120% 80% at 50% 0%,
+      #163a2e 0%,
+      #0f2a22 45%,
+      #0a1c17 100%
+    );
+}
+
+.starfield-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
