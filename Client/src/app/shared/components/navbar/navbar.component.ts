@@ -38,18 +38,17 @@ import { NgClass } from '@angular/common';
       </a>
 
       <!-- Alerts -->
-      <a id="nav-alerts" routerLink="#"
-        [ngClass]="activeTab === 'alerts' ? 'bg-[#50c878]/20 text-[#006d36]' : 'text-[#3e4a3f] hover:bg-[#eff4ff]'"
+      <a id="nav-insights" routerLink="/insights"
+        [ngClass]="activeTab === 'insights' ? 'bg-[#50c878]/20 text-[#006d36]' : 'text-[#3e4a3f] hover:bg-[#eff4ff]'"
         class="flex flex-col items-center justify-center rounded-full px-4 py-1 nav-btn relative transition-colors"
-        [attr.aria-current]="activeTab === 'alerts' ? 'page' : null">
-        <span class="material-symbols-outlined" [style.font-variation-settings]="activeTab === 'alerts' ? '\\'FILL\\' 1' : 'normal'">notifications</span>
-        <span class="font-['JetBrains_Mono'] text-[11px] font-bold">Alerts</span>
-        <!-- Unread dot -->
-        <span class="absolute top-1 right-3 w-2 h-2 bg-[#ba1a1a] rounded-full"></span>
+        [attr.aria-current]="activeTab === 'insights' ? 'page' : null">
+        <span class="material-symbols-outlined" [style.font-variation-settings]="activeTab === 'insights' ? '\\'FILL\\' 1' : 'normal'">model_training</span>
+        <span class="font-['JetBrains_Mono'] text-[11px] font-bold">Insights</span>
       </a>
+
     </nav>
   `
 })
 export class NavbarComponent {
-  @Input() activeTab: 'home' | 'crops' | 'weather' | 'alerts' = 'home';
+  @Input() activeTab: 'home' | 'crops' | 'weather' | 'insights' = 'home';
 }

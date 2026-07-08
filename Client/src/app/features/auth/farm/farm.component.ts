@@ -27,7 +27,7 @@ export class FarmComponent {
 
   createFarm() {
     const farmRequest: FarmRequest = {
-      ownerId: this.#authService.getUserId(),
+      ownerId: this.#authService.getUserId()!,
       farmName: this.farm.farmName,
       farmAddress: `${this.farm.streetAddress}, ${this.farm.suburb}, ${this.farm.city}, ${this.farm.zipCode}`
     };

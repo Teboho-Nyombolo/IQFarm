@@ -5,7 +5,7 @@
   class="w-full top-0 sticky z-50 bg-[var(--color-surface)]/80 backdrop-blur-md border-b border-[var(--color-border)] flex justify-between items-center px-4 h-16"
 >
   <div class="flex items-center gap-3">
-    <app-logo [size]="32" [textSize]="14"></app-logo>
+    <app-logo [size]="40" [textSize]="18"></app-logo>
     <h1 class="font-['Manrope'] text-xl font-extrabold text-[var(--color-tertiary)]">Weather</h1>
   </div>
 
@@ -18,7 +18,7 @@
       search
     </button>
     <!-- Profile avatar placeholder -->
-    <div class="w-10 h-10 rounded-full bg-[var(--color-primary)] flex items-center justify-center ring-2 ring-[var(--color-primary)]/10">
+    <div (click)="goToProfile()" class="w-10 h-10 rounded-full bg-[var(--color-primary)] flex items-center justify-center ring-2 ring-[var(--color-primary)]/10">
       <span class="material-symbols-outlined text-white icon-filled">person</span>
     </div>
   </div>

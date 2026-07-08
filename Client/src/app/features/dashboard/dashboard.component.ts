@@ -154,4 +154,8 @@ export class DashboardComponent implements OnInit {
   addNewItem(): void {
     this.#router.navigate(['/crops/add']);
   }
+
+  goToProfile():void {
+    this.#router.navigate(['/profile']);
+  }
 }
