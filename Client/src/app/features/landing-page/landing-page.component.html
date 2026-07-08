@@ -1,27 +1,33 @@
 <div class="min-h-screen w-full flex flex-col items-center bg-[var(--color-surface)]">
   <!-- Hero Section -->
-  <section class="flex-1 flex flex-col items-center px-3 pt-9 text-center">
-    <!-- Logo -->
-    <app-logo [size]="80" [textSize]="24"></app-logo>
+  <section class="relative flex w-full flex-1 flex-col items-center px-3 pt-9 text-center">
+    <!-- Calming interactive starfield (moves gently with mouse/touch) -->
+    <app-starfield class="pointer-events-none"></app-starfield>
 
-    <!-- Main Heading -->
-    <h1
-      class="mt-6 text-4xl font-bold leading-tight text-[var(--color-tertiary)]"
-    >
-      Intelligence for Every Field
-    </h1>
-    <!-- Description -->
-    <p class="mt-5 max-w-sm text-base leading-7 text-[var(--color-text-muted)]">
-      Harness the power of AI and real-time telemetry to optimize crop yields,
-      reduce waste, and manage your farm with unprecedented precision.
-    </p>
-    <!-- Get Started Button -->
-    <button
-      (click)="register()"
-      class="mt-10 w-full max-w-xs rounded-xl bg-[var(--color-primary)] py-4 text-lg font-semibold text-white transition duration-300 hover:bg-[var(--color-primary-dark)]"
-    >
-      Get Started
-    </button>
+    <!-- Hero content sits above the starfield -->
+    <div class="relative z-10 flex flex-col items-center">
+      <!-- Logo -->
+      <app-logo [size]="80" [textSize]="24" textColor="#ffffff"></app-logo>
+
+      <!-- Main Heading -->
+      <h1
+        class="mt-6 text-4xl font-bold leading-tight text-white"
+      >
+        Intelligence for Every Field
+      </h1>
+      <!-- Description -->
+      <p class="mt-5 max-w-sm text-base leading-7 text-white/80">
+        Harness the power of AI and real-time telemetry to optimize crop yields,
+        reduce waste, and manage your farm with unprecedented precision.
+      </p>
+      <!-- Get Started Button -->
+      <button
+        (click)="register()"
+        class="mt-10 w-full max-w-xs rounded-xl bg-[var(--color-primary)] py-4 text-lg font-semibold text-white transition duration-300 hover:bg-[var(--color-primary-light)]"
+      >
+        Get Started
+      </button>
+    </div>
   </section>
   <br />
   <section class="px-6 py-12 text-center">

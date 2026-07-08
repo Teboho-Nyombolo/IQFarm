@@ -21,7 +21,8 @@ import { Component, Input } from '@angular/core';
       @if (showText) {
         <span
           [style.fontSize]="textSize + 'px'"
-          class="font-bold text-[var(--color-tertiary)]"
+          [style.color]="textColor"
+          class="font-bold"
         >
           Farm
         </span>
@@ -33,4 +34,5 @@ export class LogoComponent {
   @Input() size = 48;
   @Input() showText = true;
   @Input() textSize = 20;
+  @Input() textColor = 'var(--color-tertiary)';
 }
