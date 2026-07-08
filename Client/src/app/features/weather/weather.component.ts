@@ -111,4 +111,8 @@ export class WeatherComponent implements OnInit {
   viewSeasonalInsights(): void {
     this.#router.navigate(['/seasonal-insights']);
   }
+
+    goToProfile():void {
+    this.#router.navigate(['/profile']);
+  }
 }

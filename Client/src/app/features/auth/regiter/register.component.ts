@@ -36,10 +36,13 @@ export class RegisterComponent {
 
     this.#authService.register(this.user).subscribe({
       next: (response: UserResponse) => {
-        this.#authService.setUserId(response.userId);
-        this.isSubmitting = false;
-        alert('Registration successful!');
-        this.goToFarm();
+      console.log('Response from backend:', response);
+
+      this.#authService.setUser(response);
+
+      console.log('User in AuthService:', this.#authService.getUser());
+
+      this.goToFarm();
       },
       error: (error: any) => {
         this.isSubmitting = false;
@@ -48,6 +51,7 @@ export class RegisterComponent {
       }
     });
   }
+
   goToFarm(){
     this.#router.navigate(['/farmInfo']);
   }

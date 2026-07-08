@@ -26,7 +26,7 @@ export class CropsComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.#platformId)) {
-      this.#farmService.getFarmByOwnerId(this.#authService.getUserId()).subscribe({
+      this.#farmService.getFarmByOwnerId(this.#authService.getUserId()!).subscribe({
         next: (farm) => {
           if (farm) {
             this.#cropService.getCropsByFarm(farm.farmId).subscribe({
@@ -74,5 +74,9 @@ export class CropsComponent implements OnInit {
       default:
         return 'text-[var(--color-text)]';
     }
+  }
+
+  goToProfile(): void {
+    this.#router.navigate(['/profile']);
   }
 }

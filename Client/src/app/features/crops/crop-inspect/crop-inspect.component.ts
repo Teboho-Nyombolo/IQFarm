@@ -49,7 +49,7 @@ export class CropInspectComponent implements OnInit {
       if (idParam) {
         this.cropId.set(Number(idParam));
       }
-      this.#farmService.getFarmByOwnerId(this.#authService.getUserId()).subscribe({
+      this.#farmService.getFarmByOwnerId(this.#authService.getUserId()!).subscribe({
         next: (farm) => {
           if (farm) {
             this.form.patchValue({ locationRegion: farm.farmAddress });
@@ -90,7 +90,7 @@ export class CropInspectComponent implements OnInit {
     }
     this.isLoading.set(true);
 
-    this.#imageService.uploadImage(this.imageFile()!, this.#authService.getUserId(), this.cropId() ?? undefined)
+    this.#imageService.uploadImage(this.imageFile()!, this.#authService.getUserId()!, this.cropId() ?? undefined)
       .subscribe({
         next: (uploadResult) => {
           const request: DiagnosisRequest = {
